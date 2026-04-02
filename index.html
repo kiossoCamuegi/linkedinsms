@@ -641,7 +641,27 @@ function buildMsgPT(c,type,nome,cargo,empresa,temEmpresa){
   const bodies={
     parceria:`O meu nome é Kiosso Camuegi e sou CEO da Eduall — uma plataforma angolana de gestão de instituições de ensino, presente em colégios, escolas públicas e universidades em Angola.\n\nVi o seu perfil e, pela sua experiência como ${cargo}${temEmpresa?' na '+empresa:''}, acredito que existe uma excelente oportunidade de colaboração no âmbito do nosso Programa de Parcerias Comerciais.\n\nTemos três modelos disponíveis no nosso programa:\n\n• Parceiro Reseller — assume o processo completo de pré-venda e negociação com os clientes, com acesso a formação especializada em vendas e comissões competitivas.\n• Parceiro Referral — referencia instituições que precisem de digitalizar a sua gestão escolar e ganha uma comissão por cada uma que adira ao Eduall, além de oferecer um desconto especial aos seus contactos.\n• Parceiro Expert — inclui gestão total do canal de distribuição, formação em vendas, produto e marketing, com benefícios exclusivos e margens altamente competitivas.\n\nO Eduall disponibiliza módulos de secretaria, finanças, pedagogia, portal do professor, aluno e encarregado — tudo numa plataforma integrada, pensada para o contexto africano.\n\nCaso esteja disponível, podemos agendar uma reunião no nosso escritório em Luanda (Centralidade do Kilamba, Bloco D20, Apt. 63, 6.º Andar) ou enviar-lhe uma proposta completa.`,
     regional:`O meu nome é Kiosso Camuegi e sou CEO da Eduall — software angolano de gestão de instituições de ensino, presente em colégios, escolas e universidades em Angola.\n\nEstamos a estruturar a nossa rede de Representantes Regionais em Angola e em outros mercados africanos, e o perfil de ${temEmpresa?empresa:'a sua empresa'} destaca-se como um potencial parceiro estratégico para esta iniciativa.\n\nA proposta é a seguinte: a Eduall e ${temEmpresa?empresa:'a sua empresa'} formalizam uma parceria regional, na qual passam a representar oficialmente a Eduall na vossa área de influência. Em termos práticos:\n\n• ${temEmpresa?empresa:'A sua empresa'} torna-se Representante Oficial da Eduall na região\n• Recebem uma percentagem das receitas geradas em toda a região representada\n• Acesso a condições comerciais preferenciais, suporte contínuo e formação dedicada\n• Co-branded marketing — a força da vossa marca aliada à da Eduall\n\nCaso esteja disponível, podemos agendar uma reunião no nosso escritório em Luanda (Centralidade do Kilamba, Bloco D20, Apt. 63, 6.º Andar) ou enviar-lhe uma proposta formal.`,
-    investidor:`O meu nome é Kiosso Camuegi e sou CEO da Eduall — uma startup angolana de tecnologia educacional (EdTech), fundada com a missão de digitalizar e modernizar a gestão das instituições de ensino em África.\n\nO seu perfil como ${cargo}${temEmpresa?' na '+empresa:''} chamou a minha atenção, e gostaria de apresentar uma oportunidade de investimento na nossa ronda Seed.\n\nSobre a Eduall:\n• Software SaaS de gestão escolar — secretaria, finanças, pedagogia, portais de aluno, professor e encarregado\n• Presente em colégios, escolas públicas e universidades em Angola\n• Modelo de receita recorrente (MRR) com contratos mensais, trimestrais e anuais\n• Planos entre 99.999 Kz e 469.999 Kz/mês\n\nCaso tenha interesse em saber mais, posso enviar-lhe o nosso deck de investimento ou podemos agendar uma reunião no nosso escritório em Luanda (Centralidade do Kilamba, Bloco D20, Apt. 63, 6.º Andar).`,
+    investidor:`O meu nome é Kiosso Camuegi e sou CEO da Eduall.
+
+Não vou começar com um discurso genérico. Vou ser direto, porque o seu tempo é valioso — e o meu também.
+
+Estamos a construir a infraestrutura de gestão que todas as instituições de ensino no mundo vão precisar. Começámos em África — não porque era o caminho mais fácil, mas porque é onde a oportunidade é maior, a concorrência é menor e o impacto é real. Estamos em fase inicial, e é exatamente por isso que esta conversa importa agora.
+
+O que é a Eduall:
+Uma plataforma SaaS de gestão institucional — secretaria, finanças, pedagogia, portais de aluno, professor e encarregado de educação. Um sistema único que substitui o caos administrativo por dados, automação e controlo.
+
+O que já temos:
+• Produto em produção com clientes reais
+• Modelo de receita recorrente (MRR) testado e validado
+• Expansão geográfica em curso para novos mercados
+• Equipa fundadora com execução comprovada
+
+O que estamos a construir a seguir:
+Escalabilidade. Não para uma cidade. Não para um país. Para um mercado de centenas de milhões de estudantes e instituições que ainda gerem tudo em papel e Excel.
+
+O momento é este. Os investidores que entram agora entram com vantagem — em avaliação, em posicionamento e em potencial de retorno. Não estamos a pedir caridade. Estamos a oferecer uma posição numa empresa que vai existir daqui a 20 anos.
+
+Se o seu perfil como ${cargo}${temEmpresa?' na '+empresa:''} indica o que eu penso que indica, vale a pena termos uma conversa de 30 minutos. Posso enviar-lhe o nosso deck de investimento ou agendar uma chamada quando lhe for conveniente.`,
   };
   return intro+(bodies[type]||bodies.parceria)+sig;
 }
@@ -653,7 +673,27 @@ function buildMsgEN(c,type,nome,cargo,empresa,temEmpresa){
   const bodies={
     parceria:`My name is Kiosso Camuegi and I am the CEO of Eduall — an Angolan platform for educational institution management, present in private schools, public schools, and universities across Angola.\n\nI came across your profile and, given your experience as ${cargo}${temEmpresa?' at '+empresa:''}, I believe there is an excellent opportunity for collaboration within our Commercial Partnership Program.\n\nWe have three models available in our program:\n\n• Reseller Partner — takes on the full pre-sales and negotiation process with clients, with access to specialized sales training and competitive commissions.\n• Referral Partner — refers institutions that need to digitize their school management and earns a commission for each one that joins Eduall, while also offering a special discount to their contacts.\n• Expert Partner — includes full distribution channel management, sales, product and marketing training, with exclusive benefits and highly competitive margins.\n\nEduall provides modules for administration, finance, pedagogy, teacher portal, student portal, and parent portal — all in one integrated platform built for the African context.\n\nIf you're available, we can schedule a meeting at our office in Luanda (Centralidade do Kilamba, Block D20, Apt. 63, 6th Floor) or send you a full proposal.`,
     regional:`My name is Kiosso Camuegi and I am the CEO of Eduall — an Angolan school management software present in schools and universities across Angola.\n\nWe are building our Regional Representative network in Angola and other African markets, and ${temEmpresa?empresa+'\'s profile':'your company\'s profile'} stands out as a potential strategic partner for this initiative.\n\nThe proposal is as follows: Eduall and ${temEmpresa?empresa:'your company'} formalize a regional partnership, in which you become an official representative of Eduall in your area of influence. In practical terms:\n\n• ${temEmpresa?empresa:'Your company'} becomes an Official Eduall Representative in the region\n• You receive a percentage of revenues generated throughout the represented region\n• Access to preferential commercial conditions, ongoing support, and dedicated training\n• Co-branded marketing — your brand strength combined with Eduall's\n\nIf you're available to explore this possibility, we can schedule a meeting at our office in Luanda (Centralidade do Kilamba, Block D20, Apt. 63, 6th Floor) or send you a formal proposal.`,
-    investidor:`My name is Kiosso Camuegi and I am the CEO of Eduall — an Angolan EdTech startup founded with the mission of digitizing and modernizing educational institution management across Africa.\n\nYour profile as ${cargo}${temEmpresa?' at '+empresa:''} caught my attention, and I would like to present an investment opportunity in our Seed round.\n\nAbout Eduall:\n• SaaS school management software — administration, finance, pedagogy, student, teacher, and parent portals\n• Present in private schools, public schools, and universities in Angola\n• Recurring revenue model (MRR) with monthly, quarterly, and annual contracts\n• Plans ranging from 99,999 Kz to 469,999 Kz/month\n\nIf you're interested in learning more, I can send you our full investment deck, or we can schedule a meeting at our office in Luanda (Centralidade do Kilamba, Block D20, Apt. 63, 6th Floor).`,
+    investidor:`My name is Kiosso Camuegi, and I'm the CEO of Eduall.
+
+I'll skip the pleasantries — you're a busy person, and what I have to say is worth your full attention.
+
+We are building the management infrastructure that every educational institution in the world will eventually need. We started in Africa — not because it was easy, but because the opportunity is enormous, the competition is scarce, and the impact is undeniable. We are at the early stage, and that is precisely why this conversation matters right now.
+
+What Eduall is:
+An institutional SaaS management platform — administration, finance, pedagogy, and portals for students, teachers, and parents. A single system that replaces administrative chaos with data, automation, and control.
+
+What we already have:
+• Product in production with real, paying clients
+• Tested and validated recurring revenue model (MRR)
+• Ongoing geographic expansion into new markets
+• A founding team with proven execution
+
+What we are building next:
+Scale. Not for one city. Not for one country. For a market of hundreds of millions of students and institutions that still run everything on paper and spreadsheets.
+
+The window is open right now. Investors who come in at this stage come in with an advantage — in valuation, in positioning, and in return potential. We are not asking for charity. We are offering a seat at the table of a company that will exist 20 years from now.
+
+Given your background as ${cargo}${temEmpresa?' at '+empresa:''}, I believe this is a conversation worth having. I can send you our investment deck or schedule a 30-minute call at your convenience.`,
   };
   return intro+(bodies[type]||bodies.parceria)+sig;
 }
@@ -665,7 +705,27 @@ function buildMsgES(c,type,nome,cargo,empresa,temEmpresa){
   const bodies={
     parceria:`Mi nombre es Kiosso Camuegi y soy CEO de Eduall — una plataforma angoleña de gestión de instituciones educativas, presente en colegios, escuelas públicas y universidades en Angola.\n\nVi su perfil y, dada su experiencia como ${cargo}${temEmpresa?' en '+empresa:''}, creo que existe una excelente oportunidad de colaboración en el marco de nuestro Programa de Alianzas Comerciales.\n\nTenemos tres modelos disponibles en nuestro programa:\n\n• Socio Reseller — asume el proceso completo de preventa y negociación con los clientes, con acceso a formación especializada en ventas y comisiones competitivas.\n• Socio Referral — refiere instituciones que necesiten digitalizar su gestión escolar y gana una comisión por cada una que se una a Eduall, además de ofrecer un descuento especial a sus contactos.\n• Socio Expert — incluye la gestión total del canal de distribución, formación en ventas, producto y marketing, con beneficios exclusivos y márgenes altamente competitivos.\n\nEduall ofrece módulos de secretaría, finanzas, pedagogía, portal del profesor, del alumno y del responsable — todo en una plataforma integrada, diseñada para el contexto africano.\n\nSi está disponible, podemos agendar una reunión en nuestra oficina en Luanda (Centralidade do Kilamba, Bloque D20, Apt. 63, 6.º Piso) o enviarle una propuesta completa.`,
     regional:`Mi nombre es Kiosso Camuegi y soy CEO de Eduall — software angoleño de gestión de instituciones educativas, presente en colegios, escuelas y universidades en Angola.\n\nEstamos estructurando nuestra red de Representantes Regionales en Angola y otros mercados africanos, y el perfil de ${temEmpresa?empresa:'su empresa'} destaca como potencial socio estratégico para esta iniciativa.\n\nLa propuesta es la siguiente: Eduall y ${temEmpresa?empresa:'su empresa'} formalizan una alianza regional, en la que pasan a representar oficialmente a Eduall en su área de influencia. En términos prácticos:\n\n• ${temEmpresa?empresa:'Su empresa'} se convierte en Representante Oficial de Eduall en la región\n• Reciben un porcentaje de los ingresos generados en toda la región representada\n• Acceso a condiciones comerciales preferenciales, soporte continuo y formación dedicada\n• Marketing co-branded — la fuerza de su marca aliada a la de Eduall\n\nSi está disponible para explorar esta posibilidad, podemos agendar una reunión o enviarle una propuesta formal.`,
-    investidor:`Mi nombre es Kiosso Camuegi y soy CEO de Eduall — una startup angoleña de tecnología educativa (EdTech), fundada con la misión de digitalizar y modernizar la gestión de las instituciones educativas en África.\n\nSu perfil como ${cargo}${temEmpresa?' en '+empresa:''} llamó mi atención, y me gustaría presentarle una oportunidad de inversión en nuestra ronda Seed.\n\nSobre Eduall:\n• Software SaaS de gestión escolar — secretaría, finanzas, pedagogía, portales de alumno, profesor y responsable\n• Presente en colegios, escuelas públicas y universidades en Angola\n• Modelo de ingresos recurrentes (MRR) con contratos mensuales, trimestrales y anuales\n• Planes entre 99.999 Kz y 469.999 Kz/mes\n\nSi está interesado en saber más, puedo enviarle nuestro deck de inversión completo o podemos agendar una reunión en nuestra oficina en Luanda (Centralidade do Kilamba, Bloque D20, Apt. 63, 6.º Piso).`,
+    investidor:`Mi nombre es Kiosso Camuegi y soy CEO de Eduall.
+
+Voy a ser directo, porque su tiempo es valioso — y el mío también.
+
+Estamos construyendo la infraestructura de gestión que todas las instituciones educativas del mundo van a necesitar. Empezamos en África — no porque fuera el camino más fácil, sino porque la oportunidad es mayor, la competencia es menor y el impacto es real. Estamos en una fase inicial, y es exactamente por eso que esta conversación importa ahora.
+
+Qué es Eduall:
+Una plataforma SaaS de gestión institucional — secretaría, finanzas, pedagogía y portales para alumnos, profesores y responsables. Un único sistema que reemplaza el caos administrativo por datos, automatización y control.
+
+Lo que ya tenemos:
+• Producto en producción con clientes reales y activos
+• Modelo de ingresos recurrentes (MRR) probado y validado
+• Expansión geográfica en curso hacia nuevos mercados
+• Equipo fundador con ejecución comprobada
+
+Lo que estamos construyendo a continuación:
+Escalabilidad. No para una ciudad. No para un país. Para un mercado de cientos de millones de estudiantes e instituciones que todavía gestionan todo en papel y hojas de cálculo.
+
+El momento es ahora. Los inversores que entran en esta etapa lo hacen con ventaja — en valoración, en posicionamiento y en potencial de retorno. No estamos pidiendo un favor. Estamos ofreciendo un lugar en la mesa de una empresa que existirá dentro de 20 años.
+
+Dado su perfil como ${cargo}${temEmpresa?' en '+empresa:''}, creo que vale la pena tener una conversación de 30 minutos. Puedo enviarle nuestro deck de inversión o agendar una llamada cuando le sea conveniente.`,
   };
   return intro+(bodies[type]||bodies.parceria)+sig;
 }
