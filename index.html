@@ -1,0 +1,788 @@
+ <!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eduall — Gestão de Contactos Parcerias</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --edu-navy: #0f1e4b;
+    --edu-blue: #1a3a8f;
+    --edu-cyan: #00c2d4;
+    --edu-cyan-light: #e0f9fc;
+    --edu-bg: #f4f6fb;
+    --edu-card: #ffffff;
+    --edu-border: #e2e8f4;
+    --edu-text: #1a202c;
+    --edu-muted: #64748b;
+    --edu-reseller: #7c3aed;
+    --edu-referral: #0891b2;
+    --edu-expert: #059669;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--edu-bg);
+    color: var(--edu-text);
+    min-height: 100vh;
+    font-size: 14px;
+  }
+  /* Sidebar */
+  .sidebar {
+    width: 240px;
+    min-height: 100vh;
+    background: var(--edu-navy);
+    position: fixed;
+    top: 0; left: 0;
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+    padding: 0;
+  }
+  .sidebar-logo {
+    padding: 24px 20px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .sidebar-logo .brand {
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.5px;
+  }
+  .sidebar-logo .brand span { color: var(--edu-cyan); }
+  .sidebar-logo .tagline {
+    font-size: 11px;
+    color: rgba(255,255,255,0.45);
+    margin-top: 2px;
+  }
+  .sidebar-nav { padding: 16px 12px; flex: 1; }
+  .nav-label {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(255,255,255,0.3);
+    padding: 0 8px;
+    margin: 16px 0 6px;
+  }
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 10px;
+    border-radius: 8px;
+    color: rgba(255,255,255,0.65);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-decoration: none;
+    margin-bottom: 2px;
+  }
+  .nav-item:hover, .nav-item.active {
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+  }
+  .nav-item.active { background: rgba(0,194,212,0.15); color: var(--edu-cyan); }
+  .nav-item i { font-size: 16px; width: 18px; text-align: center; }
+  .sidebar-footer {
+    padding: 16px 20px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .sidebar-footer .user-name { font-size: 13px; font-weight: 600; color: #fff; }
+  .sidebar-footer .user-role { font-size: 11px; color: rgba(255,255,255,0.4); }
+  .avatar-sm {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--edu-cyan), var(--edu-blue));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; color: #fff; flex-shrink: 0;
+  }
+  /* Main */
+  .main { margin-left: 240px; padding: 28px 32px; min-height: 100vh; }
+  /* Header */
+  .page-title { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; color: var(--edu-navy); }
+  .page-sub { font-size: 13px; color: var(--edu-muted); margin-top: 2px; }
+  /* Stat cards */
+  .stat-card {
+    background: var(--edu-card);
+    border: 1px solid var(--edu-border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    transition: box-shadow 0.2s;
+  }
+  .stat-card:hover { box-shadow: 0 4px 20px rgba(15,30,75,0.08); }
+  .stat-card .stat-num { font-size: 28px; font-weight: 700; letter-spacing: -1px; }
+  .stat-card .stat-label { font-size: 12px; color: var(--edu-muted); margin-top: 2px; }
+  .stat-card .stat-icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  /* Table card */
+  .table-card {
+    background: var(--edu-card);
+    border: 1px solid var(--edu-border);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .table-card .card-header-bar {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--edu-border);
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  }
+  .table-card table { margin: 0; }
+  .table-card thead th {
+    background: #f8faff;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--edu-muted);
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--edu-border);
+    white-space: nowrap;
+  }
+  .table-card tbody td {
+    padding: 11px 14px;
+    vertical-align: middle;
+    border-bottom: 1px solid #f1f5fd;
+    font-size: 13px;
+  }
+  .table-card tbody tr:last-child td { border-bottom: none; }
+  .table-card tbody tr:hover td { background: #fafbff; }
+  /* Badges */
+  .badge-status {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 3px 10px; border-radius: 100px; font-size: 11px; font-weight: 600;
+  }
+  .badge-status .dot { width: 6px; height: 6px; border-radius: 50%; }
+  .badge-novo { background: #eff6ff; color: #1d4ed8; }
+  .badge-novo .dot { background: #3b82f6; }
+  .badge-pendente { background: #fffbeb; color: #b45309; }
+  .badge-pendente .dot { background: #f59e0b; }
+  .badge-enviado { background: #f0fdf4; color: #15803d; }
+  .badge-enviado .dot { background: #22c55e; }
+  /* Partner type badge */
+  .badge-partner {
+    display: inline-block; padding: 2px 9px; border-radius: 100px;
+    font-size: 10px; font-weight: 600;
+  }
+  .badge-reseller { background: #f3f0ff; color: var(--edu-reseller); }
+  .badge-referral { background: #e0f9fc; color: var(--edu-referral); }
+  .badge-expert { background: #ecfdf5; color: var(--edu-expert); }
+  .badge-all { background: #f1f5f9; color: #475569; }
+  /* Buttons */
+  .btn-edu-primary {
+    background: var(--edu-navy);
+    color: #fff; border: none;
+    padding: 8px 16px; border-radius: 8px;
+    font-size: 13px; font-weight: 600;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    cursor: pointer; transition: background 0.15s;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .btn-edu-primary:hover { background: var(--edu-blue); color: #fff; }
+  .btn-edu-outline {
+    background: transparent;
+    color: var(--edu-navy); border: 1.5px solid var(--edu-border);
+    padding: 8px 16px; border-radius: 8px;
+    font-size: 13px; font-weight: 600;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    cursor: pointer; transition: all 0.15s;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .btn-edu-outline:hover { border-color: var(--edu-navy); background: #f8faff; color: var(--edu-navy); }
+  .btn-edu-success {
+    background: #166534; color: #fff; border: none;
+    padding: 8px 16px; border-radius: 8px;
+    font-size: 13px; font-weight: 600;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    cursor: pointer; transition: background 0.15s;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .btn-edu-success:hover { background: #15803d; }
+  .btn-icon {
+    width: 30px; height: 30px; border-radius: 7px;
+    border: 1px solid var(--edu-border);
+    background: transparent; color: var(--edu-muted);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 14px; cursor: pointer; transition: all 0.15s;
+  }
+  .btn-icon:hover { background: #f1f5f9; color: var(--edu-navy); border-color: #cbd5e1; }
+  .btn-icon.danger:hover { background: #fff1f2; color: #dc2626; border-color: #fecaca; }
+  .btn-icon.msg:hover { background: #eff6ff; color: var(--edu-blue); border-color: #bfdbfe; }
+  /* Search / filter */
+  .search-input {
+    border: 1px solid var(--edu-border); border-radius: 8px;
+    padding: 8px 14px 8px 36px; font-size: 13px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: var(--edu-text); background: #f8faff;
+    width: 260px; outline: none; transition: border 0.15s;
+  }
+  .search-input:focus { border-color: var(--edu-cyan); background: #fff; }
+  .search-wrap { position: relative; }
+  .search-wrap i { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--edu-muted); font-size: 14px; }
+  .filter-select {
+    border: 1px solid var(--edu-border); border-radius: 8px;
+    padding: 8px 12px; font-size: 13px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: var(--edu-text); background: #f8faff;
+    outline: none; cursor: pointer; transition: border 0.15s;
+  }
+  .filter-select:focus { border-color: var(--edu-cyan); }
+  /* Modal */
+  .modal-content {
+    border-radius: 16px !important;
+    border: none !important;
+    box-shadow: 0 20px 60px rgba(15,30,75,0.18) !important;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+  .modal-header {
+    border-bottom: 1px solid var(--edu-border) !important;
+    padding: 20px 24px 16px !important;
+  }
+  .modal-title { font-weight: 700 !important; font-size: 16px !important; color: var(--edu-navy) !important; }
+  .modal-body { padding: 20px 24px !important; }
+  .modal-footer { border-top: 1px solid var(--edu-border) !important; padding: 14px 24px !important; }
+  .form-label { font-size: 12px; font-weight: 600; color: var(--edu-muted); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 5px; }
+  .form-control, .form-select {
+    border: 1px solid var(--edu-border) !important;
+    border-radius: 8px !important;
+    font-size: 13px !important;
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    color: var(--edu-text) !important;
+    padding: 9px 12px !important;
+    background: #f8faff !important;
+    transition: border 0.15s !important;
+  }
+  .form-control:focus, .form-select:focus {
+    border-color: var(--edu-cyan) !important;
+    box-shadow: 0 0 0 3px rgba(0,194,212,0.1) !important;
+    background: #fff !important;
+  }
+  /* Partner type tabs */
+  .partner-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+  .ptab {
+    padding: 6px 14px; border-radius: 100px; font-size: 12px; font-weight: 600;
+    border: 1.5px solid var(--edu-border); background: transparent; color: var(--edu-muted);
+    cursor: pointer; transition: all 0.15s; font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+  .ptab:hover { border-color: var(--edu-navy); color: var(--edu-navy); }
+  .ptab.active-all { background: var(--edu-navy); color: #fff; border-color: var(--edu-navy); }
+  .ptab.active-reseller { background: var(--edu-reseller); color: #fff; border-color: var(--edu-reseller); }
+  .ptab.active-referral { background: var(--edu-referral); color: #fff; border-color: var(--edu-referral); }
+  .ptab.active-expert { background: var(--edu-expert); color: #fff; border-color: var(--edu-expert); }
+  /* Message area */
+  .msg-textarea {
+    width: 100%; min-height: 280px; border-radius: 10px;
+    border: 1px solid var(--edu-border); padding: 14px;
+    font-size: 13px; line-height: 1.7; font-family: 'Plus Jakarta Sans', sans-serif;
+    color: var(--edu-text); background: #f8faff; resize: vertical;
+    transition: border 0.15s;
+  }
+  .msg-textarea:focus { border-color: var(--edu-cyan); outline: none; background: #fff; }
+  /* Empty state */
+  .empty-state { padding: 48px 20px; text-align: center; }
+  .empty-state i { font-size: 40px; color: #cbd5e1; margin-bottom: 12px; display: block; }
+  .empty-state p { color: var(--edu-muted); font-size: 14px; margin: 0; }
+  /* Toast */
+  .toast-custom {
+    position: fixed; bottom: 24px; right: 24px;
+    background: var(--edu-navy); color: #fff;
+    padding: 12px 20px; border-radius: 10px;
+    font-size: 13px; font-weight: 500;
+    display: flex; align-items: center; gap: 8px;
+    box-shadow: 0 8px 30px rgba(15,30,75,0.25);
+    z-index: 9999; opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s;
+    pointer-events: none;
+  }
+  .toast-custom.show { opacity: 1; transform: translateY(0); }
+  .toast-custom i { color: var(--edu-cyan); font-size: 16px; }
+  /* Responsive */
+  @media (max-width: 768px) {
+    .sidebar { display: none; }
+    .main { margin-left: 0; padding: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+  <div class="sidebar-logo">
+    <div class="brand">edu<span>all</span></div>
+    <div class="tagline">Programa de Parcerias</div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-label">Menu</div>
+    <a class="nav-item active" href="#">
+      <i class="bi bi-people-fill"></i> Contactos
+    </a>
+    <a class="nav-item" href="#">
+      <i class="bi bi-bar-chart-fill"></i> Relatórios
+    </a>
+    <a class="nav-item" href="#">
+      <i class="bi bi-handshake"></i> Parcerias
+    </a>
+    <div class="nav-label">Configurações</div>
+    <a class="nav-item" href="#">
+      <i class="bi bi-gear"></i> Definições
+    </a>
+  </nav>
+  <div class="sidebar-footer d-flex align-items-center gap-2">
+    <div class="avatar-sm">KC</div>
+    <div>
+      <div class="user-name">Kiosso Camuegi</div>
+      <div class="user-role">CEO — Eduall</div>
+    </div>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div class="main">
+
+  <!-- Page Header -->
+  <div class="d-flex align-items-start justify-content-between mb-4 flex-wrap gap-3">
+    <div>
+      <div class="page-title">Gestão de Contactos</div>
+      <div class="page-sub">Programa de Parcerias Eduall · Kiosso Camuegi, CEO</div>
+    </div>
+    <div class="d-flex gap-2 flex-wrap">
+      <button class="btn-edu-outline" onclick="exportExcel()">
+        <i class="bi bi-file-earmark-excel"></i> Exportar Excel
+      </button>
+      <button class="btn-edu-primary" onclick="openEditModal(null)">
+        <i class="bi bi-plus-lg"></i> Novo Contacto
+      </button>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="row g-3 mb-4" id="statsRow"></div>
+
+  <!-- Table Card -->
+  <div class="table-card mb-4">
+    <div class="card-header-bar">
+      <div class="search-wrap">
+        <i class="bi bi-search"></i>
+        <input type="text" class="search-input" id="searchInput" placeholder="Pesquisar contactos..." oninput="renderTable()">
+      </div>
+      <select class="filter-select" id="filterEstado" onchange="renderTable()">
+        <option value="">Todos os estados</option>
+        <option value="novo">Novo</option>
+        <option value="pendente">Pendente</option>
+        <option value="enviado">Enviado</option>
+      </select>
+      <select class="filter-select" id="filterParceiro" onchange="renderTable()">
+        <option value="">Todos os tipos</option>
+        <option value="reseller">Reseller</option>
+        <option value="referral">Referral</option>
+        <option value="expert">Expert</option>
+        <option value="all">Geral</option>
+      </select>
+      <span class="ms-auto text-muted" style="font-size:12px" id="countLabel"></span>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-hover mb-0" id="contactsTable">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Nome</th>
+            <th>Cargo</th>
+            <th>Empresa</th>
+            <th>Profissão</th>
+            <th>LinkedIn</th>
+            <th>Parceria</th>
+            <th>Estado</th>
+            <th class="text-end">Ações</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- Edit / New Modal -->
+<div class="modal fade" id="editModal" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalTitle">Novo Contacto</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Nome completo</label>
+            <input type="text" class="form-control" id="f_nome" placeholder="Ex: Ana Martins" onkeydown="handleFormKey(event)">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Cargo</label>
+            <input type="text" class="form-control" id="f_cargo" placeholder="Ex: Director Comercial" onkeydown="handleFormKey(event)">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Empresa / Instituição</label>
+            <input type="text" class="form-control" id="f_empresa" placeholder="Ex: Escola São José" onkeydown="handleFormKey(event)">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Profissão</label>
+            <input type="text" class="form-control" id="f_profissao" placeholder="Ex: Gestor Educacional" onkeydown="handleFormKey(event)">
+          </div>
+          <div class="col-12">
+            <label class="form-label">URL LinkedIn</label>
+            <input type="text" class="form-control" id="f_linkedin" placeholder="https://linkedin.com/in/..." onkeydown="handleFormKey(event)">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Tipo de Parceria</label>
+            <select class="form-select" id="f_parceiro">
+              <option value="all">Geral (todas as parcerias)</option>
+              <option value="reseller">Reseller</option>
+              <option value="referral">Referral</option>
+              <option value="expert">Expert</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Estado</label>
+            <select class="form-select" id="f_estado">
+              <option value="novo">Novo</option>
+              <option value="pendente">Pendente</option>
+              <option value="enviado">Enviado</option>
+            </select>
+          </div>
+        </div>
+        <div class="mt-3">
+          <small class="text-muted"><i class="bi bi-keyboard me-1"></i>Pressione <strong>Enter</strong> para guardar e adicionar novo contacto automaticamente.</small>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-edu-outline" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn-edu-primary" onclick="saveContact()"><i class="bi bi-check-lg"></i> Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Message Modal -->
+<div class="modal fade" id="msgModal" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <h5 class="modal-title">Mensagem LinkedIn</h5>
+          <div style="font-size:12px;color:var(--edu-muted);margin-top:2px" id="msgModalSub"></div>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="partner-tabs" id="partnerTabs">
+          <button class="ptab active-all" onclick="selectPartner('all',this)">Todas as parcerias</button>
+          <button class="ptab" onclick="selectPartner('reseller',this)" style="color:var(--edu-reseller);border-color:var(--edu-reseller)">Reseller</button>
+          <button class="ptab" onclick="selectPartner('referral',this)" style="color:var(--edu-referral);border-color:var(--edu-referral)">Referral</button>
+          <button class="ptab" onclick="selectPartner('expert',this)" style="color:var(--edu-expert);border-color:var(--edu-expert)">Expert</button>
+        </div>
+        <textarea class="msg-textarea" id="msgArea"></textarea>
+      </div>
+      <div class="modal-footer justify-content-between flex-wrap gap-2">
+        <div>
+          <span id="copyFeedback" style="font-size:12px;color:#15803d;font-weight:600;display:none"><i class="bi bi-check-circle-fill me-1"></i>Copiado!</span>
+        </div>
+        <div class="d-flex gap-2 flex-wrap">
+          <button class="btn-edu-outline" data-bs-dismiss="modal">Fechar</button>
+          <button class="btn-edu-outline" onclick="copyMsg()"><i class="bi bi-clipboard me-1"></i>Copiar</button>
+          <button class="btn-edu-success" onclick="markSent()"><i class="bi bi-send me-1"></i>Marcar como enviado</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast-custom" id="toast"><i class="bi bi-check-circle-fill"></i> <span id="toastMsg"></span></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script>
+const STORE_KEY = 'eduall_contacts_v3';
+let contacts = [];
+let editingId = null;
+let msgContactId = null;
+let currentPartner = 'all';
+
+const editModalEl = document.getElementById('editModal');
+const msgModalEl = document.getElementById('msgModal');
+const editModal = new bootstrap.Modal(editModalEl);
+const msgModal = new bootstrap.Modal(msgModalEl);
+
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2); }
+
+function load() {
+  try { const d = localStorage.getItem(STORE_KEY); if (d) contacts = JSON.parse(d); } catch(e) { contacts = []; }
+}
+function save() {
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(contacts)); } catch(e) {}
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+function renderStats() {
+  const total = contacts.length;
+  const enviados = contacts.filter(c => c.estado === 'enviado').length;
+  const pendentes = contacts.filter(c => c.estado === 'pendente').length;
+  const novos = contacts.filter(c => !c.estado || c.estado === 'novo').length;
+  document.getElementById('statsRow').innerHTML = `
+    <div class="col-6 col-md-3">
+      <div class="stat-card d-flex align-items-center gap-3">
+        <div class="stat-icon" style="background:#eff6ff"><i class="bi bi-people-fill" style="color:#3b82f6"></i></div>
+        <div><div class="stat-num" style="color:var(--edu-navy)">${total}</div><div class="stat-label">Total de contactos</div></div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="stat-card d-flex align-items-center gap-3">
+        <div class="stat-icon" style="background:#f0fdf4"><i class="bi bi-send-check-fill" style="color:#22c55e"></i></div>
+        <div><div class="stat-num" style="color:#15803d">${enviados}</div><div class="stat-label">Mensagens enviadas</div></div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="stat-card d-flex align-items-center gap-3">
+        <div class="stat-icon" style="background:#fffbeb"><i class="bi bi-hourglass-split" style="color:#f59e0b"></i></div>
+        <div><div class="stat-num" style="color:#b45309">${pendentes}</div><div class="stat-label">Pendentes</div></div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="stat-card d-flex align-items-center gap-3">
+        <div class="stat-icon" style="background:#eff6ff"><i class="bi bi-person-plus-fill" style="color:#6366f1"></i></div>
+        <div><div class="stat-num" style="color:#4338ca">${novos}</div><div class="stat-label">Novos contactos</div></div>
+      </div>
+    </div>
+  `;
+}
+
+function filtered() {
+  const q = (document.getElementById('searchInput').value || '').toLowerCase();
+  const st = document.getElementById('filterEstado').value;
+  const pt = document.getElementById('filterParceiro').value;
+  return contacts.filter(c => {
+    const match = !q || [c.nome, c.cargo, c.empresa, c.profissao, c.linkedin].some(v => (v||'').toLowerCase().includes(q));
+    const stMatch = !st || (c.estado || 'novo') === st;
+    const ptMatch = !pt || (c.parceiro || 'all') === pt;
+    return match && stMatch && ptMatch;
+  });
+}
+
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function badgeEstado(est) {
+  const map = { novo: 'badge-novo', pendente: 'badge-pendente', enviado: 'badge-enviado' };
+  const labels = { novo: 'Novo', pendente: 'Pendente', enviado: 'Enviado' };
+  const cls = map[est] || 'badge-novo';
+  return `<span class="badge-status ${cls}"><span class="dot"></span>${labels[est]||'Novo'}</span>`;
+}
+
+function badgeParceiro(p) {
+  const map = { reseller: ['badge-reseller','Reseller'], referral: ['badge-referral','Referral'], expert: ['badge-expert','Expert'], all: ['badge-all','Geral'] };
+  const [cls, label] = map[p||'all'] || map.all;
+  return `<span class="badge-partner ${cls}">${label}</span>`;
+}
+
+function renderTable() {
+  renderStats();
+  const rows = filtered();
+  document.getElementById('countLabel').textContent = rows.length + ' contacto(s)';
+  const tb = document.getElementById('tbody');
+  if (!rows.length) {
+    tb.innerHTML = `<tr><td colspan="9"><div class="empty-state"><i class="bi bi-inbox"></i><p>Nenhum contacto encontrado.<br>Clique em "+ Novo Contacto" para começar.</p></div></td></tr>`;
+    return;
+  }
+  tb.innerHTML = rows.map((c, i) => {
+    const globalIdx = contacts.indexOf(c) + 1;
+    return `<tr>
+      <td style="color:var(--edu-muted);width:40px">${globalIdx}</td>
+      <td style="font-weight:600;color:var(--edu-navy)">${esc(c.nome) || '<span style="color:#cbd5e1">—</span>'}</td>
+      <td>${esc(c.cargo) || '<span style="color:#cbd5e1">—</span>'}</td>
+      <td>${esc(c.empresa) || '<span style="color:#cbd5e1">—</span>'}</td>
+      <td style="color:var(--edu-muted)">${esc(c.profissao) || '<span style="color:#cbd5e1">—</span>'}</td>
+      <td>${c.linkedin ? `<a href="${esc(c.linkedin)}" target="_blank" style="color:var(--edu-blue);font-size:12px;font-weight:600;text-decoration:none"><i class="bi bi-linkedin me-1"></i>Ver perfil</a>` : '<span style="color:#cbd5e1">—</span>'}</td>
+      <td>${badgeParceiro(c.parceiro)}</td>
+      <td>${badgeEstado(c.estado || 'novo')}</td>
+      <td style="text-align:right;white-space:nowrap">
+        <button class="btn-icon msg me-1" title="Gerar mensagem" onclick="openMsgModal('${c.id}')"><i class="bi bi-chat-left-text"></i></button>
+        <button class="btn-icon me-1" title="Editar" onclick="openEditModal('${c.id}')"><i class="bi bi-pencil"></i></button>
+        <button class="btn-icon danger" title="Apagar" onclick="deleteContact('${c.id}')"><i class="bi bi-trash"></i></button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function openEditModal(id) {
+  editingId = id;
+  const isNew = !id;
+  document.getElementById('editModalTitle').textContent = isNew ? 'Novo Contacto' : 'Editar Contacto';
+  if (isNew) {
+    ['f_nome','f_cargo','f_empresa','f_profissao','f_linkedin'].forEach(f => document.getElementById(f).value = '');
+    document.getElementById('f_parceiro').value = 'all';
+    document.getElementById('f_estado').value = 'novo';
+  } else {
+    const c = contacts.find(x => x.id === id);
+    if (!c) return;
+    document.getElementById('f_nome').value = c.nome || '';
+    document.getElementById('f_cargo').value = c.cargo || '';
+    document.getElementById('f_empresa').value = c.empresa || '';
+    document.getElementById('f_profissao').value = c.profissao || '';
+    document.getElementById('f_linkedin').value = c.linkedin || '';
+    document.getElementById('f_parceiro').value = c.parceiro || 'all';
+    document.getElementById('f_estado').value = c.estado || 'novo';
+  }
+  editModal.show();
+  setTimeout(() => document.getElementById('f_nome').focus(), 300);
+}
+
+function handleFormKey(e) {
+  if (e.key === 'Enter') { e.preventDefault(); saveContact(true); }
+}
+
+function saveContact(addNew = false) {
+  const nome = document.getElementById('f_nome').value.trim();
+  const cargo = document.getElementById('f_cargo').value.trim();
+  const empresa = document.getElementById('f_empresa').value.trim();
+  const profissao = document.getElementById('f_profissao').value.trim();
+  const linkedin = document.getElementById('f_linkedin').value.trim();
+  const parceiro = document.getElementById('f_parceiro').value;
+  const estado = document.getElementById('f_estado').value;
+
+  if (editingId) {
+    const c = contacts.find(x => x.id === editingId);
+    if (c) Object.assign(c, { nome, cargo, empresa, profissao, linkedin, parceiro, estado });
+  } else {
+    contacts.push({ id: uid(), nome, cargo, empresa, profissao, linkedin, parceiro, estado });
+  }
+  save(); renderTable();
+  showToast(editingId ? 'Contacto atualizado!' : 'Contacto adicionado!');
+  if (addNew) {
+    editingId = null;
+    ['f_nome','f_cargo','f_empresa','f_profissao','f_linkedin'].forEach(f => document.getElementById(f).value = '');
+    document.getElementById('f_parceiro').value = 'all';
+    document.getElementById('f_estado').value = 'novo';
+    document.getElementById('f_nome').focus();
+  } else {
+    editModal.hide();
+  }
+}
+
+function deleteContact(id) {
+  if (!confirm('Apagar este contacto? Esta ação não pode ser desfeita.')) return;
+  contacts = contacts.filter(x => x.id !== id);
+  save(); renderTable();
+  showToast('Contacto apagado.');
+}
+
+function openMsgModal(id) {
+  msgContactId = id;
+  currentPartner = 'all';
+  const c = contacts.find(x => x.id === id);
+  if (!c) return;
+  document.getElementById('msgModalSub').textContent = `${c.nome || '—'} · ${c.cargo || ''} ${c.empresa ? '· ' + c.empresa : ''}`;
+  document.getElementById('msgArea').value = buildMsg(c, c.parceiro || 'all');
+  currentPartner = c.parceiro || 'all';
+  document.querySelectorAll('.ptab').forEach(b => { b.className = 'ptab'; });
+  const activeTab = document.querySelectorAll('.ptab')[['all','reseller','referral','expert'].indexOf(currentPartner)];
+  if (activeTab) activeTab.classList.add('active-' + currentPartner);
+  msgModal.show();
+}
+
+function selectPartner(type, btn) {
+  currentPartner = type;
+  document.querySelectorAll('.ptab').forEach(b => { b.className = 'ptab'; b.style.cssText = ''; });
+  const colors = { reseller: 'var(--edu-reseller)', referral: 'var(--edu-referral)', expert: 'var(--edu-expert)' };
+  btn.classList.add('active-' + type);
+  const c = contacts.find(x => x.id === msgContactId);
+  if (c) document.getElementById('msgArea').value = buildMsg(c, type);
+}
+
+function buildMsg(c, type) {
+  const nome = c.nome ? c.nome.split(' ')[0] : '';
+  const cargo = c.cargo || 'profissional';
+  const empresa = c.empresa || 'a sua organização';
+  const partnerInfo = {
+    all: `Temos três modelos disponíveis no nosso programa:\n\n• Parceiro Reseller — assume o processo completo de pré-venda e negociação com os clientes, com acesso a formação especializada em vendas e comissões competitivas.\n\n• Parceiro Referral — referencia instituições que precisem de digitalizar a sua gestão escolar e ganha uma comissão por cada uma que adira ao Eduall, além de oferecer um desconto especial aos seus contactos.\n\n• Parceiro Expert — inclui gestão total do canal de distribuição, formação em vendas, produto e marketing, com benefícios exclusivos e margens altamente competitivas.`,
+    reseller: `O nosso modelo Parceiro Reseller foi criado para profissionais e empresas que queiram assumir o processo comercial de forma completa: pré-venda, negociação e fecho de contratos. Em troca, oferecemos formação especializada em vendas, condições comerciais atrativas e comissões competitivas.`,
+    referral: `O nosso modelo Parceiro Referral é simples e eficaz: referencia instituições que precisem de digitalizar a sua gestão escolar e recebe uma comissão por cada uma que adira ao Eduall. Adicionalmente, pode oferecer um desconto especial aos seus contactos, aumentando a sua rede de influência no setor.`,
+    expert: `O nosso modelo Parceiro Expert é o mais abrangente: inclui gestão completa do canal de distribuição, formação aprofundada em vendas, produto e estratégias de marketing, e benefícios exclusivos com margens altamente competitivas — pensado para parceiros que queiram crescer connosco de forma estruturada.`
+  };
+  return `Olá ${nome},
+
+O meu nome é Kiosso Camuegi e sou CEO da Eduall — um software angolano de gestão de instituições de ensino, já presente em colégios, escolas públicas e universidades em Angola.
+
+O seu perfil como ${cargo}${empresa !== 'a sua organização' ? ' na ' + empresa : ''} chamou a minha atenção, e acredito que existe uma excelente oportunidade de colaboração no âmbito do nosso Programa de Parcerias.
+
+${partnerInfo[type] || partnerInfo.all}
+
+O Eduall disponibiliza módulos completos de secretaria, finanças, pedagogia, transporte escolar, portal do professor, portal do aluno e portal do encarregado — tudo numa plataforma integrada, desenhada para o contexto africano.
+
+Caso esteja disponível para conversar, podemos agendar uma reunião no nosso escritório em Luanda (Centralidade do Kilamba, Bloco D20, Apt. 63, 6.º Andar) ou enviar-lhe uma proposta completa com todos os planos e condições de parceria.
+
+Fico ao dispor para qualquer questão.
+
+Com os melhores cumprimentos,
+Kiosso Camuegi
+CEO — Eduall
+sales@eduall.ao | +244 943 220 865 | +244 926 282 750
+www.eduall.ao`;
+}
+
+function copyMsg() {
+  const ta = document.getElementById('msgArea');
+  if (!ta) return;
+  navigator.clipboard.writeText(ta.value).then(() => {
+    const fb = document.getElementById('copyFeedback');
+    fb.style.display = 'inline';
+    setTimeout(() => fb.style.display = 'none', 2500);
+    showToast('Mensagem copiada!');
+  });
+}
+
+function markSent() {
+  const c = contacts.find(x => x.id === msgContactId);
+  if (c) { c.estado = 'enviado'; save(); renderTable(); showToast('Marcado como enviado!'); }
+  msgModal.hide();
+}
+
+function exportExcel() {
+  if (!window.XLSX) { alert('A carregar a biblioteca, tente novamente.'); return; }
+  const data = contacts.map((c, i) => ({
+    '#': i + 1,
+    'Nome': c.nome || '',
+    'Cargo': c.cargo || '',
+    'Empresa / Instituição': c.empresa || '',
+    'Profissão': c.profissao || '',
+    'LinkedIn': c.linkedin || '',
+    'Tipo de Parceria': c.parceiro || 'geral',
+    'Estado': c.estado || 'novo'
+  }));
+  const ws = XLSX.utils.json_to_sheet(data);
+  ws['!cols'] = [5,22,20,24,20,35,16,12].map(w => ({ wch: w }));
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Contactos Parcerias');
+  XLSX.writeFile(wb, 'Contactos_Parcerias_Eduall.xlsx');
+  showToast('Ficheiro Excel exportado!');
+}
+
+// Init
+load();
+renderTable();
+</script>
+</body>
+</html>
