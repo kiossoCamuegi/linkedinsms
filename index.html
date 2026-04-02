@@ -1,363 +1,208 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Eduall — Gestão de Contactos Parcerias</title>
+<title>Eduall — Gestão de Contactos</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --edu-navy: #0f1e4b;
-    --edu-blue: #1a3a8f;
-    --edu-cyan: #00c2d4;
-    --edu-cyan-light: #e0f9fc;
-    --edu-bg: #f4f6fb;
-    --edu-card: #ffffff;
-    --edu-border: #e2e8f4;
-    --edu-text: #1a202c;
-    --edu-muted: #64748b;
-    --edu-reseller: #7c3aed;
-    --edu-referral: #0891b2;
-    --edu-expert: #059669;
-  }
-  * { box-sizing: border-box; }
-  body {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    background: var(--edu-bg);
-    color: var(--edu-text);
-    min-height: 100vh;
-    font-size: 14px;
-  }
-  /* Sidebar */
-  .sidebar {
-    width: 240px;
-    min-height: 100vh;
-    background: var(--edu-navy);
-    position: fixed;
-    top: 0; left: 0;
-    display: flex;
-    flex-direction: column;
-    z-index: 100;
-    padding: 0;
-  }
-  .sidebar-logo {
-    padding: 24px 20px 20px;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-  }
-  .sidebar-logo .brand {
-    font-size: 20px;
-    font-weight: 700;
-    color: #fff;
-    letter-spacing: -0.5px;
-  }
-  .sidebar-logo .brand span { color: var(--edu-cyan); }
-  .sidebar-logo .tagline {
-    font-size: 11px;
-    color: rgba(255,255,255,0.45);
-    margin-top: 2px;
-  }
-  .sidebar-nav { padding: 16px 12px; flex: 1; }
-  .nav-label {
-    font-size: 10px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: rgba(255,255,255,0.3);
-    padding: 0 8px;
-    margin: 16px 0 6px;
-  }
-  .nav-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 9px 10px;
-    border-radius: 8px;
-    color: rgba(255,255,255,0.65);
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.15s;
-    text-decoration: none;
-    margin-bottom: 2px;
-  }
-  .nav-item:hover, .nav-item.active {
-    background: rgba(255,255,255,0.08);
-    color: #fff;
-  }
-  .nav-item.active { background: rgba(0,194,212,0.15); color: var(--edu-cyan); }
-  .nav-item i { font-size: 16px; width: 18px; text-align: center; }
-  .sidebar-footer {
-    padding: 16px 20px;
-    border-top: 1px solid rgba(255,255,255,0.08);
-  }
-  .sidebar-footer .user-name { font-size: 13px; font-weight: 600; color: #fff; }
-  .sidebar-footer .user-role { font-size: 11px; color: rgba(255,255,255,0.4); }
-  .avatar-sm {
-    width: 32px; height: 32px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--edu-cyan), var(--edu-blue));
-    display: flex; align-items: center; justify-content: center;
-    font-size: 12px; font-weight: 700; color: #fff; flex-shrink: 0;
-  }
-  /* Main */
-  .main { margin-left: 240px; padding: 28px 32px; min-height: 100vh; }
-  /* Header */
-  .page-title { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; color: var(--edu-navy); }
-  .page-sub { font-size: 13px; color: var(--edu-muted); margin-top: 2px; }
-  /* Stat cards */
-  .stat-card {
-    background: var(--edu-card);
-    border: 1px solid var(--edu-border);
-    border-radius: 12px;
-    padding: 18px 20px;
-    transition: box-shadow 0.2s;
-  }
-  .stat-card:hover { box-shadow: 0 4px 20px rgba(15,30,75,0.08); }
-  .stat-card .stat-num { font-size: 28px; font-weight: 700; letter-spacing: -1px; }
-  .stat-card .stat-label { font-size: 12px; color: var(--edu-muted); margin-top: 2px; }
-  .stat-card .stat-icon {
-    width: 40px; height: 40px; border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px;
-  }
-  /* Table card */
-  .table-card {
-    background: var(--edu-card);
-    border: 1px solid var(--edu-border);
-    border-radius: 14px;
-    overflow: hidden;
-  }
-  .table-card .card-header-bar {
-    padding: 16px 20px;
-    border-bottom: 1px solid var(--edu-border);
-    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
-  }
-  .table-card table { margin: 0; }
-  .table-card thead th {
-    background: #f8faff;
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    color: var(--edu-muted);
-    padding: 11px 14px;
-    border-bottom: 1px solid var(--edu-border);
-    white-space: nowrap;
-  }
-  .table-card tbody td {
-    padding: 11px 14px;
-    vertical-align: middle;
-    border-bottom: 1px solid #f1f5fd;
-    font-size: 13px;
-  }
-  .table-card tbody tr:last-child td { border-bottom: none; }
-  .table-card tbody tr:hover td { background: #fafbff; }
-  /* Badges */
-  .badge-status {
-    display: inline-flex; align-items: center; gap: 5px;
-    padding: 3px 10px; border-radius: 100px; font-size: 11px; font-weight: 600;
-  }
-  .badge-status .dot { width: 6px; height: 6px; border-radius: 50%; }
-  .badge-novo { background: #eff6ff; color: #1d4ed8; }
-  .badge-novo .dot { background: #3b82f6; }
-  .badge-pendente { background: #fffbeb; color: #b45309; }
-  .badge-pendente .dot { background: #f59e0b; }
-  .badge-enviado { background: #f0fdf4; color: #15803d; }
-  .badge-enviado .dot { background: #22c55e; }
-  /* Partner type badge */
-  .badge-partner {
-    display: inline-block; padding: 2px 9px; border-radius: 100px;
-    font-size: 10px; font-weight: 600;
-  }
-  .badge-reseller { background: #f3f0ff; color: var(--edu-reseller); }
-  .badge-referral { background: #e0f9fc; color: var(--edu-referral); }
-  .badge-expert { background: #ecfdf5; color: var(--edu-expert); }
-  .badge-all { background: #f1f5f9; color: #475569; }
-  /* Buttons */
-  .btn-edu-primary {
-    background: var(--edu-navy);
-    color: #fff; border: none;
-    padding: 8px 16px; border-radius: 8px;
-    font-size: 13px; font-weight: 600;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    cursor: pointer; transition: background 0.15s;
-    display: inline-flex; align-items: center; gap: 6px;
-  }
-  .btn-edu-primary:hover { background: var(--edu-blue); color: #fff; }
-  .btn-edu-outline {
-    background: transparent;
-    color: var(--edu-navy); border: 1.5px solid var(--edu-border);
-    padding: 8px 16px; border-radius: 8px;
-    font-size: 13px; font-weight: 600;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    cursor: pointer; transition: all 0.15s;
-    display: inline-flex; align-items: center; gap: 6px;
-  }
-  .btn-edu-outline:hover { border-color: var(--edu-navy); background: #f8faff; color: var(--edu-navy); }
-  .btn-edu-success {
-    background: #166534; color: #fff; border: none;
-    padding: 8px 16px; border-radius: 8px;
-    font-size: 13px; font-weight: 600;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    cursor: pointer; transition: background 0.15s;
-    display: inline-flex; align-items: center; gap: 6px;
-  }
-  .btn-edu-success:hover { background: #15803d; }
-  .btn-icon {
-    width: 30px; height: 30px; border-radius: 7px;
-    border: 1px solid var(--edu-border);
-    background: transparent; color: var(--edu-muted);
-    display: inline-flex; align-items: center; justify-content: center;
-    font-size: 14px; cursor: pointer; transition: all 0.15s;
-  }
-  .btn-icon:hover { background: #f1f5f9; color: var(--edu-navy); border-color: #cbd5e1; }
-  .btn-icon.danger:hover { background: #fff1f2; color: #dc2626; border-color: #fecaca; }
-  .btn-icon.msg:hover { background: #eff6ff; color: var(--edu-blue); border-color: #bfdbfe; }
-  /* Search / filter */
-  .search-input {
-    border: 1px solid var(--edu-border); border-radius: 8px;
-    padding: 8px 14px 8px 36px; font-size: 13px;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    color: var(--edu-text); background: #f8faff;
-    width: 260px; outline: none; transition: border 0.15s;
-  }
-  .search-input:focus { border-color: var(--edu-cyan); background: #fff; }
-  .search-wrap { position: relative; }
-  .search-wrap i { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--edu-muted); font-size: 14px; }
-  .filter-select {
-    border: 1px solid var(--edu-border); border-radius: 8px;
-    padding: 8px 12px; font-size: 13px;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    color: var(--edu-text); background: #f8faff;
-    outline: none; cursor: pointer; transition: border 0.15s;
-  }
-  .filter-select:focus { border-color: var(--edu-cyan); }
-  /* Modal */
-  .modal-content {
-    border-radius: 16px !important;
-    border: none !important;
-    box-shadow: 0 20px 60px rgba(15,30,75,0.18) !important;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-  }
-  .modal-header {
-    border-bottom: 1px solid var(--edu-border) !important;
-    padding: 20px 24px 16px !important;
-  }
-  .modal-title { font-weight: 700 !important; font-size: 16px !important; color: var(--edu-navy) !important; }
-  .modal-body { padding: 20px 24px !important; }
-  .modal-footer { border-top: 1px solid var(--edu-border) !important; padding: 14px 24px !important; }
-  .form-label { font-size: 12px; font-weight: 600; color: var(--edu-muted); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 5px; }
-  .form-control, .form-select {
-    border: 1px solid var(--edu-border) !important;
-    border-radius: 8px !important;
-    font-size: 13px !important;
-    font-family: 'Plus Jakarta Sans', sans-serif !important;
-    color: var(--edu-text) !important;
-    padding: 9px 12px !important;
-    background: #f8faff !important;
-    transition: border 0.15s !important;
-  }
-  .form-control:focus, .form-select:focus {
-    border-color: var(--edu-cyan) !important;
-    box-shadow: 0 0 0 3px rgba(0,194,212,0.1) !important;
-    background: #fff !important;
-  }
-  /* Partner type tabs */
-  .partner-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
-  .ptab {
-    padding: 6px 14px; border-radius: 100px; font-size: 12px; font-weight: 600;
-    border: 1.5px solid var(--edu-border); background: transparent; color: var(--edu-muted);
-    cursor: pointer; transition: all 0.15s; font-family: 'Plus Jakarta Sans', sans-serif;
-  }
-  .ptab:hover { border-color: var(--edu-navy); color: var(--edu-navy); }
-  .ptab.active-all { background: var(--edu-navy); color: #fff; border-color: var(--edu-navy); }
-  .ptab.active-reseller { background: var(--edu-reseller); color: #fff; border-color: var(--edu-reseller); }
-  .ptab.active-referral { background: var(--edu-referral); color: #fff; border-color: var(--edu-referral); }
-  .ptab.active-expert { background: var(--edu-expert); color: #fff; border-color: var(--edu-expert); }
-  /* Message area */
-  .msg-textarea {
-    width: 100%; min-height: 280px; border-radius: 10px;
-    border: 1px solid var(--edu-border); padding: 14px;
-    font-size: 13px; line-height: 1.7; font-family: 'Plus Jakarta Sans', sans-serif;
-    color: var(--edu-text); background: #f8faff; resize: vertical;
-    transition: border 0.15s;
-  }
-  .msg-textarea:focus { border-color: var(--edu-cyan); outline: none; background: #fff; }
-  /* Empty state */
-  .empty-state { padding: 48px 20px; text-align: center; }
-  .empty-state i { font-size: 40px; color: #cbd5e1; margin-bottom: 12px; display: block; }
-  .empty-state p { color: var(--edu-muted); font-size: 14px; margin: 0; }
-  /* Toast */
-  .toast-custom {
-    position: fixed; bottom: 24px; right: 24px;
-    background: var(--edu-navy); color: #fff;
-    padding: 12px 20px; border-radius: 10px;
-    font-size: 13px; font-weight: 500;
-    display: flex; align-items: center; gap: 8px;
-    box-shadow: 0 8px 30px rgba(15,30,75,0.25);
-    z-index: 9999; opacity: 0;
-    transform: translateY(10px);
-    transition: all 0.3s;
-    pointer-events: none;
-  }
-  .toast-custom.show { opacity: 1; transform: translateY(0); }
-  .toast-custom i { color: var(--edu-cyan); font-size: 16px; }
-  /* Responsive */
-  @media (max-width: 768px) {
-    .sidebar { display: none; }
-    .main { margin-left: 0; padding: 16px; }
-  }
+:root {
+  --primary: #1a3a8f;
+  --primary-light: #eef2ff;
+  --cyan: #0891b2;
+  --cyan-light: #e0f7fa;
+  --bg: #f7f9fc;
+  --surface: #ffffff;
+  --border: #e8ecf4;
+  --text: #111827;
+  --muted: #6b7280;
+  --muted-light: #f3f4f6;
+  --green: #15803d;
+  --green-light: #f0fdf4;
+  --amber: #b45309;
+  --amber-light: #fffbeb;
+  --blue: #1d4ed8;
+  --blue-light: #eff6ff;
+  --purple: #6d28d9;
+  --purple-light: #f5f3ff;
+  --rose: #be185d;
+  --rose-light: #fdf2f8;
+  --teal: #0f766e;
+  --teal-light: #f0fdfa;
+  --orange: #c2410c;
+  --orange-light: #fff7ed;
+  --radius: 10px;
+  --radius-lg: 14px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.07),0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5}
+
+/* NAV */
+.topnav{background:var(--surface);border-bottom:1px solid var(--border);padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;box-shadow:var(--shadow)}
+.brand{font-size:18px;font-weight:700;color:var(--primary);letter-spacing:-0.5px}
+.brand span{color:var(--cyan)}
+.nav-user{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted)}
+.avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--cyan));color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+/* LANG SWITCHER */
+.lang-switcher{display:flex;align-items:center;gap:4px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:3px;margin-right:6px}
+.lang-btn{padding:4px 10px;border-radius:7px;border:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;transition:all .15s;white-space:nowrap}
+.lang-btn.active{background:var(--surface);color:var(--primary);box-shadow:var(--shadow)}
+
+/* LAYOUT */
+.page{max-width:1200px;margin:0 auto;padding:28px 20px 60px}
+
+/* STAT CARDS */
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px 20px;box-shadow:var(--shadow);display:flex;align-items:center;gap:14px}
+.stat-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.stat-num{font-size:26px;font-weight:700;letter-spacing:-1px}
+.stat-lbl{font-size:12px;color:var(--muted);margin-top:1px}
+
+/* TABLE CARD */
+.card-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow);overflow:hidden}
+.card-toolbar{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.search-box{position:relative;flex:1;min-width:180px;max-width:280px}
+.search-box i{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:14px;pointer-events:none}
+.search-box input{width:100%;padding:8px 12px 8px 32px;border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:13px;background:var(--bg);color:var(--text);outline:none;transition:border .15s}
+.search-box input:focus{border-color:var(--cyan);background:#fff}
+.filter-sel{padding:8px 12px;border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:13px;background:var(--bg);color:var(--text);outline:none;cursor:pointer;transition:border .15s}
+.filter-sel:focus{border-color:var(--cyan)}
+
+table{width:100%;border-collapse:collapse}
+thead th{background:#f9fafb;padding:10px 14px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);border-bottom:1px solid var(--border);white-space:nowrap}
+tbody td{padding:11px 14px;border-bottom:1px solid #f3f4f8;vertical-align:middle;font-size:13px}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover td{background:#fafbff}
+
+/* BADGES */
+.badge-pill{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:600}
+.badge-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.b-novo{background:var(--blue-light);color:var(--blue)}
+.b-novo .badge-dot{background:var(--blue)}
+.b-pendente{background:var(--amber-light);color:var(--amber)}
+.b-pendente .badge-dot{background:#f59e0b}
+.b-enviado{background:var(--green-light);color:var(--green)}
+.b-enviado .badge-dot{background:#22c55e}
+.tag{display:inline-block;padding:2px 9px;border-radius:100px;font-size:11px;font-weight:600}
+.tag-reseller{background:var(--purple-light);color:var(--purple)}
+.tag-referral{background:var(--cyan-light);color:var(--cyan)}
+.tag-expert{background:var(--teal-light);color:var(--teal)}
+.tag-regional{background:var(--orange-light);color:var(--orange)}
+.tag-investidor{background:var(--rose-light);color:var(--rose)}
+.tag-geral{background:var(--muted-light);color:var(--muted)}
+
+/* BUTTONS */
+.btn-main{padding:8px 16px;border-radius:var(--radius);border:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all .15s;white-space:nowrap}
+.btn-primary-main{background:var(--primary);color:#fff}
+.btn-primary-main:hover{background:#1e40af}
+.btn-outline-main{background:var(--surface);color:var(--text);border:1px solid var(--border)!important}
+.btn-outline-main:hover{background:var(--bg);border-color:#cbd5e1!important}
+.btn-success-main{background:var(--green);color:#fff}
+.btn-success-main:hover{background:#166534}
+.btn-import{background:var(--teal-light);color:var(--teal);border:1px solid #99f6e4!important}
+.btn-import:hover{background:#ccfbf1;border-color:#5eead4!important}
+.btn-ghost{width:30px;height:30px;border-radius:7px;border:1px solid var(--border);background:transparent;color:var(--muted);display:inline-flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer;transition:all .15s}
+.btn-ghost:hover{background:var(--bg);color:var(--text);border-color:#cbd5e1}
+.btn-ghost.msg:hover{background:var(--blue-light);color:var(--blue);border-color:#93c5fd}
+.btn-ghost.del:hover{background:#fff1f2;color:#dc2626;border-color:#fecaca}
+
+/* MODAL */
+.modal-content{border:1px solid var(--border)!important;border-radius:var(--radius-lg)!important;box-shadow:0 20px 60px rgba(0,0,0,0.12)!important;font-family:'DM Sans',sans-serif}
+.modal-header{border-bottom:1px solid var(--border)!important;padding:18px 22px!important}
+.modal-title{font-weight:700!important;font-size:15px!important;color:var(--text)!important}
+.modal-body{padding:20px 22px!important}
+.modal-footer{border-top:1px solid var(--border)!important;padding:14px 22px!important}
+.form-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:5px;display:block}
+.form-control,.form-select{border:1px solid var(--border)!important;border-radius:var(--radius)!important;font-size:13px!important;font-family:'DM Sans',sans-serif!important;background:var(--bg)!important;color:var(--text)!important;padding:9px 12px!important}
+.form-control:focus,.form-select:focus{border-color:var(--cyan)!important;box-shadow:0 0 0 3px rgba(8,145,178,.1)!important;background:#fff!important}
+
+/* MSG TYPE GRID */
+.msg-type-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.msg-type-btn{padding:10px 10px;border-radius:var(--radius);border:1.5px solid var(--border);background:var(--surface);cursor:pointer;text-align:left;font-family:'DM Sans',sans-serif;transition:all .15s}
+.msg-type-btn .ic{font-size:18px;display:block}
+.msg-type-btn .t{font-size:12px;font-weight:600;color:var(--text);display:block;margin-top:4px}
+.msg-type-btn .s{font-size:10px;color:var(--muted);display:block}
+.msg-type-btn:hover{border-color:#93c5fd;background:var(--blue-light)}
+.msg-type-btn.active{border-color:var(--primary);background:var(--primary-light)}
+.msg-type-btn.active .t{color:var(--primary)}
+
+/* MSG LANG SWITCHER inside modal */
+.msg-lang-row{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.msg-lang-row label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
+.msg-lang-btns{display:flex;gap:4px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:3px}
+.msg-lang-btn{padding:4px 12px;border-radius:7px;border:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;transition:all .15s}
+.msg-lang-btn.active{background:var(--surface);color:var(--primary);box-shadow:var(--shadow)}
+
+.msg-textarea{width:100%;min-height:260px;border-radius:var(--radius);border:1px solid var(--border);padding:14px;font-size:13px;line-height:1.7;font-family:'DM Sans',sans-serif;color:var(--text);background:var(--bg);resize:vertical;outline:none;transition:border .15s}
+.msg-textarea:focus{border-color:var(--cyan);background:#fff}
+
+/* IMPORT ZONE */
+.import-zone{border:2px dashed var(--border);border-radius:var(--radius-lg);padding:32px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg)}
+.import-zone:hover,.import-zone.drag{border-color:var(--cyan);background:var(--cyan-light)}
+.import-zone i{font-size:32px;color:var(--muted);display:block;margin-bottom:8px}
+.import-zone p{font-size:13px;color:var(--muted);margin:0}
+.import-zone strong{color:var(--text)}
+#importFileInput{display:none}
+
+/* EMPTY */
+.empty-state{padding:52px 20px;text-align:center}
+.empty-state i{font-size:38px;color:#d1d5db;display:block;margin-bottom:10px}
+.empty-state p{color:var(--muted);font-size:13px}
+
+/* TOAST */
+.toast-wrap{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px;align-items:flex-end;pointer-events:none}
+.toast-item{background:var(--text);color:#fff;padding:10px 16px;border-radius:var(--radius);font-size:13px;font-weight:500;display:flex;align-items:center;gap:8px;box-shadow:var(--shadow-md);animation:slideUp .3s ease,fadeOut .4s ease 2.4s forwards}
+.toast-item i{color:#6ee7b7;font-size:15px}
+.toast-item.err i{color:#fca5a5}
+@keyframes slideUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeOut{to{opacity:0;transform:translateY(-4px)}}
+
+/* RESPONSIVE */
+@media(max-width:640px){
+  .page{padding:16px 12px 60px}
+  .topnav{padding:0 14px}
+  .hide-sm{display:none!important}
+  .stat-num{font-size:22px}
+}
 </style>
 </head>
 <body>
 
-<!-- Sidebar -->
-<div class="sidebar">
-  <div class="sidebar-logo">
-    <div class="brand">edu<span>all</span></div>
-    <div class="tagline">Programa de Parcerias</div>
-  </div>
-  <nav class="sidebar-nav">
-    <div class="nav-label">Menu</div>
-    <a class="nav-item active" href="#">
-      <i class="bi bi-people-fill"></i> Contactos
-    </a>
-    <a class="nav-item" href="#">
-      <i class="bi bi-bar-chart-fill"></i> Relatórios
-    </a>
-    <a class="nav-item" href="#">
-      <i class="bi bi-handshake"></i> Parcerias
-    </a>
-    <div class="nav-label">Configurações</div>
-    <a class="nav-item" href="#">
-      <i class="bi bi-gear"></i> Definições
-    </a>
-  </nav>
-  <div class="sidebar-footer d-flex align-items-center gap-2">
-    <div class="avatar-sm">KC</div>
-    <div>
-      <div class="user-name">Kiosso Camuegi</div>
-      <div class="user-role">CEO — Eduall</div>
+<nav class="topnav">
+  <div class="brand">edu<span>all</span></div>
+  <div class="nav-user">
+    <!-- Global language switcher -->
+    <div class="lang-switcher hide-sm" id="globalLangSwitcher">
+      <button class="lang-btn active" onclick="setGlobalLang('pt',this)">🇵🇹 PT</button>
+      <button class="lang-btn" onclick="setGlobalLang('en',this)">🇬🇧 EN</button>
+      <button class="lang-btn" onclick="setGlobalLang('es',this)">🇪🇸 ES</button>
     </div>
+    <span class="hide-sm" style="font-size:13px;font-weight:500;color:var(--text)">Kiosso Camuegi &middot; CEO</span>
+    <div class="avatar">KC</div>
   </div>
-</div>
+</nav>
 
-<!-- Main Content -->
-<div class="main">
+<div class="page">
 
-  <!-- Page Header -->
-  <div class="d-flex align-items-start justify-content-between mb-4 flex-wrap gap-3">
+  <!-- Header -->
+  <div class="d-flex align-items-start justify-content-between flex-wrap gap-3 mb-4">
     <div>
-      <div class="page-title">Gestão de Contactos</div>
-      <div class="page-sub">Programa de Parcerias Eduall · Kiosso Camuegi, CEO</div>
+      <h1 style="font-size:20px;font-weight:700;letter-spacing:-.5px">Gestão de Contactos</h1>
+      <p style="font-size:13px;color:var(--muted);margin-top:2px">Parcerias · Investimento · Representação Regional</p>
     </div>
     <div class="d-flex gap-2 flex-wrap">
-      <button class="btn-edu-outline" onclick="exportExcel()">
-        <i class="bi bi-file-earmark-excel"></i> Exportar Excel
+      <button class="btn-main btn-import" onclick="openImportModal()">
+        <ion-icon name="cloud-upload-outline" style="font-size:16px"></ion-icon><span class="hide-sm">Importar Excel</span>
       </button>
-      <button class="btn-edu-primary" onclick="openEditModal(null)">
-        <i class="bi bi-plus-lg"></i> Novo Contacto
+      <button class="btn-main btn-outline-main" onclick="exportExcel()">
+        <ion-icon name="download-outline" style="font-size:16px"></ion-icon><span class="hide-sm">Exportar Excel</span>
+      </button>
+      <button class="btn-main btn-primary-main" onclick="openEditModal(null)">
+        <ion-icon name="add-outline" style="font-size:16px"></ion-icon> Novo Contacto
       </button>
     </div>
   </div>
@@ -365,41 +210,42 @@
   <!-- Stats -->
   <div class="row g-3 mb-4" id="statsRow"></div>
 
-  <!-- Table Card -->
-  <div class="table-card mb-4">
-    <div class="card-header-bar">
-      <div class="search-wrap">
-        <i class="bi bi-search"></i>
-        <input type="text" class="search-input" id="searchInput" placeholder="Pesquisar contactos..." oninput="renderTable()">
+  <!-- Table -->
+  <div class="card-wrap">
+    <div class="card-toolbar">
+      <div class="search-box">
+        <ion-icon name="search-outline" style="font-size:14px"></ion-icon>
+        <input type="text" id="searchInput" placeholder="Pesquisar..." oninput="renderTable()">
       </div>
-      <select class="filter-select" id="filterEstado" onchange="renderTable()">
+      <select class="filter-sel" id="filterEstado" onchange="renderTable()">
         <option value="">Todos os estados</option>
         <option value="novo">Novo</option>
         <option value="pendente">Pendente</option>
         <option value="enviado">Enviado</option>
       </select>
-      <select class="filter-select" id="filterParceiro" onchange="renderTable()">
+      <select class="filter-sel" id="filterTipo" onchange="renderTable()">
         <option value="">Todos os tipos</option>
         <option value="reseller">Reseller</option>
         <option value="referral">Referral</option>
         <option value="expert">Expert</option>
-        <option value="all">Geral</option>
+        <option value="regional">Representante Regional</option>
+        <option value="investidor">Investidor</option>
+        <option value="geral">Geral</option>
       </select>
-      <span class="ms-auto text-muted" style="font-size:12px" id="countLabel"></span>
+      <span class="ms-auto" style="font-size:12px;color:var(--muted)" id="countLbl"></span>
     </div>
     <div class="table-responsive">
-      <table class="table table-hover mb-0" id="contactsTable">
+      <table>
         <thead>
           <tr>
             <th>#</th>
             <th>Nome</th>
-            <th>Cargo</th>
-            <th>Empresa</th>
-            <th>Profissão</th>
-            <th>LinkedIn</th>
-            <th>Parceria</th>
+            <th class="hide-sm">Cargo</th>
+            <th class="hide-sm">Empresa</th>
+            <th class="hide-sm">Profissão</th>
+            <th>Tipo</th>
             <th>Estado</th>
-            <th class="text-end">Ações</th>
+            <th style="text-align:right">Ações</th>
           </tr>
         </thead>
         <tbody id="tbody"></tbody>
@@ -409,43 +255,32 @@
 
 </div>
 
-<!-- Edit / New Modal -->
+<div class="toast-wrap" id="toastWrap"></div>
+
+<!-- Edit Modal -->
 <div class="modal fade" id="editModal" tabindex="-1">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="editModalTitle">Novo Contacto</h5>
+        <h5 class="modal-title" id="editTitle">Novo Contacto</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
         <div class="row g-3">
+          <div class="col-md-6"><label class="form-label">Nome completo</label><input type="text" class="form-control" id="f_nome" placeholder="Ex: Ana Martins" onkeydown="handleKey(event)"></div>
+          <div class="col-md-6"><label class="form-label">Cargo</label><input type="text" class="form-control" id="f_cargo" placeholder="Ex: Director Comercial" onkeydown="handleKey(event)"></div>
+          <div class="col-md-6"><label class="form-label">Empresa / Instituição</label><input type="text" class="form-control" id="f_empresa" placeholder="Ex: Escola São José" onkeydown="handleKey(event)"></div>
+          <div class="col-md-6"><label class="form-label">Profissão / Sector</label><input type="text" class="form-control" id="f_profissao" placeholder="Ex: Gestor Educacional" onkeydown="handleKey(event)"></div>
+          <div class="col-12"><label class="form-label">URL LinkedIn</label><input type="text" class="form-control" id="f_linkedin" placeholder="https://linkedin.com/in/..." onkeydown="handleKey(event)"></div>
           <div class="col-md-6">
-            <label class="form-label">Nome completo</label>
-            <input type="text" class="form-control" id="f_nome" placeholder="Ex: Ana Martins" onkeydown="handleFormKey(event)">
-          </div>
-          <div class="col-md-6">
-            <label class="form-label">Cargo</label>
-            <input type="text" class="form-control" id="f_cargo" placeholder="Ex: Director Comercial" onkeydown="handleFormKey(event)">
-          </div>
-          <div class="col-md-6">
-            <label class="form-label">Empresa / Instituição</label>
-            <input type="text" class="form-control" id="f_empresa" placeholder="Ex: Escola São José" onkeydown="handleFormKey(event)">
-          </div>
-          <div class="col-md-6">
-            <label class="form-label">Profissão</label>
-            <input type="text" class="form-control" id="f_profissao" placeholder="Ex: Gestor Educacional" onkeydown="handleFormKey(event)">
-          </div>
-          <div class="col-12">
-            <label class="form-label">URL LinkedIn</label>
-            <input type="text" class="form-control" id="f_linkedin" placeholder="https://linkedin.com/in/..." onkeydown="handleFormKey(event)">
-          </div>
-          <div class="col-md-6">
-            <label class="form-label">Tipo de Parceria</label>
-            <select class="form-select" id="f_parceiro">
-              <option value="all">Geral (todas as parcerias)</option>
-              <option value="reseller">Reseller</option>
-              <option value="referral">Referral</option>
-              <option value="expert">Expert</option>
+            <label class="form-label">Tipo de Contacto</label>
+            <select class="form-select" id="f_tipo">
+              <option value="geral">Geral</option>
+              <option value="reseller">Parceiro Reseller</option>
+              <option value="referral">Parceiro Referral</option>
+              <option value="expert">Parceiro Expert</option>
+              <option value="regional">Representante Regional</option>
+              <option value="investidor">Investidor / Seed</option>
             </select>
           </div>
           <div class="col-md-6">
@@ -457,13 +292,11 @@
             </select>
           </div>
         </div>
-        <div class="mt-3">
-          <small class="text-muted"><i class="bi bi-keyboard me-1"></i>Pressione <strong>Enter</strong> para guardar e adicionar novo contacto automaticamente.</small>
-        </div>
+        <p style="font-size:12px;color:var(--muted);margin-top:14px"><ion-icon name="keypad-outline" style="font-size:13px"></ion-icon> Pressione <strong>Enter</strong> para guardar e adicionar outro automaticamente.</p>
       </div>
       <div class="modal-footer">
-        <button class="btn-edu-outline" data-bs-dismiss="modal">Cancelar</button>
-        <button class="btn-edu-primary" onclick="saveContact()"><i class="bi bi-check-lg"></i> Guardar</button>
+        <button class="btn-main btn-outline-main" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn-main btn-primary-main" onclick="saveContact()"><ion-icon name="checkmark-outline" style="font-size:16px"></ion-icon> Guardar</button>
       </div>
     </div>
   </div>
@@ -476,313 +309,534 @@
       <div class="modal-header">
         <div>
           <h5 class="modal-title">Mensagem LinkedIn</h5>
-          <div style="font-size:12px;color:var(--edu-muted);margin-top:2px" id="msgModalSub"></div>
+          <div id="msgSub" style="font-size:12px;color:var(--muted);margin-top:2px"></div>
         </div>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
-        <div class="partner-tabs" id="partnerTabs">
-          <button class="ptab active-all" onclick="selectPartner('all',this)">Todas as parcerias</button>
-          <button class="ptab" onclick="selectPartner('reseller',this)" style="color:var(--edu-reseller);border-color:var(--edu-reseller)">Reseller</button>
-          <button class="ptab" onclick="selectPartner('referral',this)" style="color:var(--edu-referral);border-color:var(--edu-referral)">Referral</button>
-          <button class="ptab" onclick="selectPartner('expert',this)" style="color:var(--edu-expert);border-color:var(--edu-expert)">Expert</button>
+        <!-- Language switcher inside modal -->
+        <div class="msg-lang-row">
+          <label>Idioma:</label>
+          <div class="msg-lang-btns" id="msgLangBtns">
+            <button class="msg-lang-btn active" onclick="setMsgLang('pt',this)">🇵🇹 Português</button>
+            <button class="msg-lang-btn" onclick="setMsgLang('en',this)">🇬🇧 English</button>
+            <button class="msg-lang-btn" onclick="setMsgLang('es',this)">🇪🇸 Español</button>
+          </div>
         </div>
+        <div class="msg-type-grid" id="msgTypeGrid"></div>
         <textarea class="msg-textarea" id="msgArea"></textarea>
       </div>
       <div class="modal-footer justify-content-between flex-wrap gap-2">
-        <div>
-          <span id="copyFeedback" style="font-size:12px;color:#15803d;font-weight:600;display:none"><i class="bi bi-check-circle-fill me-1"></i>Copiado!</span>
-        </div>
+        <span id="copyFb" style="font-size:12px;color:var(--green);font-weight:600;display:none"><ion-icon name="checkmark-circle" style="color:var(--green);font-size:14px"></ion-icon>Copiado!</span>
         <div class="d-flex gap-2 flex-wrap">
-          <button class="btn-edu-outline" data-bs-dismiss="modal">Fechar</button>
-          <button class="btn-edu-outline" onclick="copyMsg()"><i class="bi bi-clipboard me-1"></i>Copiar</button>
-          <button class="btn-edu-success" onclick="markSent()"><i class="bi bi-send me-1"></i>Marcar como enviado</button>
+          <button class="btn-main btn-outline-main" data-bs-dismiss="modal">Fechar</button>
+          <button class="btn-main btn-outline-main" onclick="copyMsg()"><ion-icon name="copy-outline" style="font-size:14px"></ion-icon>Copiar</button>
+          <button class="btn-main btn-success-main" onclick="markSent()"><ion-icon name="send-outline" style="font-size:14px"></ion-icon>Marcar enviado</button>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Toast -->
-<div class="toast-custom" id="toast"><i class="bi bi-check-circle-fill"></i> <span id="toastMsg"></span></div>
+<!-- Import Modal -->
+<div class="modal fade" id="importModal" tabindex="-1">
+  <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><ion-icon name="cloud-upload-outline" style="color:var(--teal);font-size:16px;margin-right:6px"></ion-icon>Importar Excel</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Drop zone (hidden after file loaded) -->
+        <div id="importDropWrap">
+          <div class="import-zone" id="importZone" onclick="document.getElementById('importFileInput').click()"
+            ondragover="event.preventDefault();this.classList.add('drag')"
+            ondragleave="this.classList.remove('drag')"
+            ondrop="handleDrop(event)">
+            <ion-icon name="cloud-upload-outline" style="font-size:32px;color:var(--muted)"></ion-icon>
+            <p><strong>Clique para selecionar</strong> ou arraste aqui</p>
+            <p style="font-size:11px;margin-top:4px">Ficheiro Excel exportado pelo Eduall (.xlsx)</p>
+          </div>
+          <input type="file" id="importFileInput" accept=".xlsx,.xls" onchange="handleFileSelect(event)">
+        </div>
+
+        <!-- Full list preview (shown after file loaded) -->
+        <div id="importPreview" style="display:none">
+          <!-- Summary bar -->
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px">
+            <div id="importSummary" style="font-size:13px;font-weight:600;color:var(--text)"></div>
+            <button class="btn-main btn-outline-main" style="font-size:12px;padding:5px 12px" onclick="resetImport()">
+              <ion-icon name="arrow-back-outline" style="font-size:14px"></ion-icon> Trocar ficheiro
+            </button>
+          </div>
+
+          <!-- Mode selector -->
+          <div style="margin-bottom:12px">
+            <label class="form-label">Modo de importação</label>
+            <select class="form-select" id="importMode" onchange="refreshImportList()">
+              <option value="merge">Adicionar aos existentes (ignorar duplicados)</option>
+              <option value="replace">Substituir todos os contactos</option>
+              <option value="append">Adicionar todos (pode duplicar)</option>
+            </select>
+          </div>
+
+          <!-- Full scrollable table -->
+          <div style="border:1px solid var(--border);border-radius:var(--radius);overflow:hidden">
+            <div style="background:#f9fafb;padding:8px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px">
+              <span style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)">Contactos a importar</span>
+              <span id="importListCount" style="font-size:11px;background:var(--primary-light);color:var(--primary);font-weight:700;padding:2px 8px;border-radius:100px"></span>
+            </div>
+            <div style="max-height:340px;overflow-y:auto">
+              <table style="width:100%;border-collapse:collapse" id="importListTable">
+                <thead>
+                  <tr>
+                    <th style="background:#f9fafb;padding:8px 12px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);border-bottom:1px solid var(--border);white-space:nowrap;position:sticky;top:0">#</th>
+                    <th style="background:#f9fafb;padding:8px 12px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);border-bottom:1px solid var(--border);position:sticky;top:0">Nome</th>
+                    <th style="background:#f9fafb;padding:8px 12px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);border-bottom:1px solid var(--border);position:sticky;top:0">Cargo</th>
+                    <th style="background:#f9fafb;padding:8px 12px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);border-bottom:1px solid var(--border);position:sticky;top:0">Empresa</th>
+                    <th style="background:#f9fafb;padding:8px 12px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);border-bottom:1px solid var(--border);position:sticky;top:0">Tipo</th>
+                    <th style="background:#f9fafb;padding:8px 12px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);border-bottom:1px solid var(--border);position:sticky;top:0">Estado</th>
+                    <th style="background:#f9fafb;padding:8px 12px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);border-bottom:1px solid var(--border);position:sticky;top:0">Situação</th>
+                  </tr>
+                </thead>
+                <tbody id="importListBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-main btn-outline-main" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn-main btn-primary-main" id="importConfirmBtn" onclick="confirmImport()" disabled>
+          <ion-icon name="checkmark-outline" style="font-size:16px"></ion-icon> Confirmar Importação
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <script>
-const STORE_KEY = 'eduall_contacts_v3';
-let contacts = [];
-let editingId = null;
-let msgContactId = null;
-let currentPartner = 'all';
+const STORE='eduall_v4';
+let contacts=[];
+let editingId=null;
+let msgContactId=null;
+let currentMsgType='geral';
+let currentMsgLang='pt'; // 'pt' | 'en' | 'es'
+let globalLang='pt';
+let importedRows=[];
 
-const editModalEl = document.getElementById('editModal');
-const msgModalEl = document.getElementById('msgModal');
-const editModal = new bootstrap.Modal(editModalEl);
-const msgModal = new bootstrap.Modal(msgModalEl);
+const editModalEl=new bootstrap.Modal(document.getElementById('editModal'));
+const msgModalEl=new bootstrap.Modal(document.getElementById('msgModal'));
+const importModalEl=new bootstrap.Modal(document.getElementById('importModal'));
 
-function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2); }
+function load(){try{const d=localStorage.getItem(STORE);if(d)contacts=JSON.parse(d);}catch(e){contacts=[];}}
+function save(){try{localStorage.setItem(STORE,JSON.stringify(contacts));}catch(e){}}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2);}
 
-function load() {
-  try { const d = localStorage.getItem(STORE_KEY); if (d) contacts = JSON.parse(d); } catch(e) { contacts = []; }
-}
-function save() {
-  try { localStorage.setItem(STORE_KEY, JSON.stringify(contacts)); } catch(e) {}
-}
-
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  document.getElementById('toastMsg').textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2800);
-}
-
-function renderStats() {
-  const total = contacts.length;
-  const enviados = contacts.filter(c => c.estado === 'enviado').length;
-  const pendentes = contacts.filter(c => c.estado === 'pendente').length;
-  const novos = contacts.filter(c => !c.estado || c.estado === 'novo').length;
-  document.getElementById('statsRow').innerHTML = `
-    <div class="col-6 col-md-3">
-      <div class="stat-card d-flex align-items-center gap-3">
-        <div class="stat-icon" style="background:#eff6ff"><i class="bi bi-people-fill" style="color:#3b82f6"></i></div>
-        <div><div class="stat-num" style="color:var(--edu-navy)">${total}</div><div class="stat-label">Total de contactos</div></div>
-      </div>
-    </div>
-    <div class="col-6 col-md-3">
-      <div class="stat-card d-flex align-items-center gap-3">
-        <div class="stat-icon" style="background:#f0fdf4"><i class="bi bi-send-check-fill" style="color:#22c55e"></i></div>
-        <div><div class="stat-num" style="color:#15803d">${enviados}</div><div class="stat-label">Mensagens enviadas</div></div>
-      </div>
-    </div>
-    <div class="col-6 col-md-3">
-      <div class="stat-card d-flex align-items-center gap-3">
-        <div class="stat-icon" style="background:#fffbeb"><i class="bi bi-hourglass-split" style="color:#f59e0b"></i></div>
-        <div><div class="stat-num" style="color:#b45309">${pendentes}</div><div class="stat-label">Pendentes</div></div>
-      </div>
-    </div>
-    <div class="col-6 col-md-3">
-      <div class="stat-card d-flex align-items-center gap-3">
-        <div class="stat-icon" style="background:#eff6ff"><i class="bi bi-person-plus-fill" style="color:#6366f1"></i></div>
-        <div><div class="stat-num" style="color:#4338ca">${novos}</div><div class="stat-label">Novos contactos</div></div>
-      </div>
-    </div>
-  `;
+function toast(msg,isErr=false){
+  const wrap=document.getElementById('toastWrap');
+  const el=document.createElement('div');
+  el.className='toast-item'+(isErr?' err':'');
+  el.innerHTML=`<ion-icon name="${isErr?'close-circle':'checkmark-circle'}" style="font-size:15px"></ion-icon>${msg}`;
+  wrap.appendChild(el);
+  setTimeout(()=>el.remove(),2900);
 }
 
-function filtered() {
-  const q = (document.getElementById('searchInput').value || '').toLowerCase();
-  const st = document.getElementById('filterEstado').value;
-  const pt = document.getElementById('filterParceiro').value;
-  return contacts.filter(c => {
-    const match = !q || [c.nome, c.cargo, c.empresa, c.profissao, c.linkedin].some(v => (v||'').toLowerCase().includes(q));
-    const stMatch = !st || (c.estado || 'novo') === st;
-    const ptMatch = !pt || (c.parceiro || 'all') === pt;
-    return match && stMatch && ptMatch;
+// ─── GLOBAL LANG ─────────────────────────────────────────────────────────────
+function setGlobalLang(lang, btn){
+  globalLang=lang;
+  currentMsgLang=lang;
+  document.querySelectorAll('#globalLangSwitcher .lang-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  // also sync modal lang buttons
+  document.querySelectorAll('#msgLangBtns .msg-lang-btn').forEach(b=>{
+    b.classList.toggle('active', b.textContent.toLowerCase().includes(lang==='pt'?'portugu':lang==='en'?'english':'español'));
+  });
+  if(msgContactId){
+    const c=contacts.find(x=>x.id===msgContactId);
+    if(c) document.getElementById('msgArea').value=buildMsg(c,currentMsgType,currentMsgLang);
+  }
+}
+
+function setMsgLang(lang, btn){
+  currentMsgLang=lang;
+  document.querySelectorAll('#msgLangBtns .msg-lang-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const c=contacts.find(x=>x.id===msgContactId);
+  if(c) document.getElementById('msgArea').value=buildMsg(c,currentMsgType,currentMsgLang);
+}
+
+// ─── STATS ───────────────────────────────────────────────────────────────────
+function renderStats(){
+  const total=contacts.length;
+  const env=contacts.filter(c=>c.estado==='enviado').length;
+  const pend=contacts.filter(c=>c.estado==='pendente').length;
+  const inv=contacts.filter(c=>c.tipo==='investidor').length;
+  document.getElementById('statsRow').innerHTML=`
+    <div class="col-6 col-lg-3"><div class="stat-card">
+      <div class="stat-icon" style="background:var(--blue-light)"><ion-icon name="people" style="color:var(--blue);font-size:18px"></ion-icon></div>
+      <div><div class="stat-num" style="color:var(--primary)">${total}</div><div class="stat-lbl">Total contactos</div></div>
+    </div></div>
+    <div class="col-6 col-lg-3"><div class="stat-card">
+      <div class="stat-icon" style="background:var(--green-light)"><ion-icon name="checkmark-done" style="color:var(--green);font-size:18px"></ion-icon></div>
+      <div><div class="stat-num" style="color:var(--green)">${env}</div><div class="stat-lbl">Mensagens enviadas</div></div>
+    </div></div>
+    <div class="col-6 col-lg-3"><div class="stat-card">
+      <div class="stat-icon" style="background:var(--amber-light)"><ion-icon name="time-outline" style="color:var(--amber);font-size:18px"></ion-icon></div>
+      <div><div class="stat-num" style="color:var(--amber)">${pend}</div><div class="stat-lbl">Pendentes</div></div>
+    </div></div>
+    <div class="col-6 col-lg-3"><div class="stat-card">
+      <div class="stat-icon" style="background:var(--rose-light)"><ion-icon name="trending-up" style="color:var(--rose);font-size:18px"></ion-icon></div>
+      <div><div class="stat-num" style="color:var(--rose)">${inv}</div><div class="stat-lbl">Investidores</div></div>
+    </div></div>`;
+}
+
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+const TIPO_MAP={reseller:['tag-reseller','Reseller'],referral:['tag-referral','Referral'],expert:['tag-expert','Expert'],regional:['tag-regional','Rep. Regional'],investidor:['tag-investidor','Investidor'],geral:['tag-geral','Geral']};
+const ESTADO_MAP={novo:['b-novo','Novo'],pendente:['b-pendente','Pendente'],enviado:['b-enviado','Enviado']};
+function tagTipo(t){const[cls,lbl]=TIPO_MAP[t]||TIPO_MAP.geral;return`<span class="tag ${cls}">${lbl}</span>`;}
+function tagEstado(e){const[cls,lbl]=ESTADO_MAP[e]||ESTADO_MAP.novo;return`<span class="badge-pill ${cls}"><span class="badge-dot"></span>${lbl}</span>`;}
+
+function filtered(){
+  const q=(document.getElementById('searchInput').value||'').toLowerCase();
+  const se=document.getElementById('filterEstado').value;
+  const st=document.getElementById('filterTipo').value;
+  return contacts.filter(c=>{
+    const mq=!q||[c.nome,c.cargo,c.empresa,c.profissao].some(v=>(v||'').toLowerCase().includes(q));
+    const me=!se||(c.estado||'novo')===se;
+    const mt=!st||(c.tipo||'geral')===st;
+    return mq&&me&&mt;
   });
 }
 
-function esc(s) {
-  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-function badgeEstado(est) {
-  const map = { novo: 'badge-novo', pendente: 'badge-pendente', enviado: 'badge-enviado' };
-  const labels = { novo: 'Novo', pendente: 'Pendente', enviado: 'Enviado' };
-  const cls = map[est] || 'badge-novo';
-  return `<span class="badge-status ${cls}"><span class="dot"></span>${labels[est]||'Novo'}</span>`;
-}
-
-function badgeParceiro(p) {
-  const map = { reseller: ['badge-reseller','Reseller'], referral: ['badge-referral','Referral'], expert: ['badge-expert','Expert'], all: ['badge-all','Geral'] };
-  const [cls, label] = map[p||'all'] || map.all;
-  return `<span class="badge-partner ${cls}">${label}</span>`;
-}
-
-function renderTable() {
+function renderTable(){
   renderStats();
-  const rows = filtered();
-  document.getElementById('countLabel').textContent = rows.length + ' contacto(s)';
-  const tb = document.getElementById('tbody');
-  if (!rows.length) {
-    tb.innerHTML = `<tr><td colspan="9"><div class="empty-state"><i class="bi bi-inbox"></i><p>Nenhum contacto encontrado.<br>Clique em "+ Novo Contacto" para começar.</p></div></td></tr>`;
-    return;
-  }
-  tb.innerHTML = rows.map((c, i) => {
-    const globalIdx = contacts.indexOf(c) + 1;
-    return `<tr>
-      <td style="color:var(--edu-muted);width:40px">${globalIdx}</td>
-      <td style="font-weight:600;color:var(--edu-navy)">${esc(c.nome) || '<span style="color:#cbd5e1">—</span>'}</td>
-      <td>${esc(c.cargo) || '<span style="color:#cbd5e1">—</span>'}</td>
-      <td>${esc(c.empresa) || '<span style="color:#cbd5e1">—</span>'}</td>
-      <td style="color:var(--edu-muted)">${esc(c.profissao) || '<span style="color:#cbd5e1">—</span>'}</td>
-      <td>${c.linkedin ? `<a href="${esc(c.linkedin)}" target="_blank" style="color:var(--edu-blue);font-size:12px;font-weight:600;text-decoration:none"><i class="bi bi-linkedin me-1"></i>Ver perfil</a>` : '<span style="color:#cbd5e1">—</span>'}</td>
-      <td>${badgeParceiro(c.parceiro)}</td>
-      <td>${badgeEstado(c.estado || 'novo')}</td>
+  const rows=filtered();
+  document.getElementById('countLbl').textContent=rows.length+' contacto(s)';
+  const tb=document.getElementById('tbody');
+  if(!rows.length){tb.innerHTML=`<tr><td colspan="8"><div class="empty-state"><ion-icon name="file-tray-outline" style="font-size:38px;color:#d1d5db;display:block;margin-bottom:10px"></ion-icon><p>Sem contactos. Clique em "+ Novo Contacto".</p></div></td></tr>`;return;}
+  tb.innerHTML=rows.map(c=>{
+    const idx=contacts.indexOf(c)+1;
+    return`<tr>
+      <td style="color:var(--muted);font-size:12px;width:36px">${idx}</td>
+      <td style="font-weight:600">${esc(c.nome)||'<span style="color:#d1d5db">—</span>'}${c.linkedin?`<a href="${esc(c.linkedin)}" target="_blank" style="color:var(--cyan);margin-left:6px;font-size:12px"><ion-icon name="logo-linkedin"></ion-icon></a>`:''}</td>
+      <td class="hide-sm" style="color:var(--muted)">${esc(c.cargo)||'—'}</td>
+      <td class="hide-sm">${esc(c.empresa)||'—'}</td>
+      <td class="hide-sm" style="color:var(--muted)">${esc(c.profissao)||'—'}</td>
+      <td>${tagTipo(c.tipo||'geral')}</td>
+      <td>${tagEstado(c.estado||'novo')}</td>
       <td style="text-align:right;white-space:nowrap">
-        <button class="btn-icon msg me-1" title="Gerar mensagem" onclick="openMsgModal('${c.id}')"><i class="bi bi-chat-left-text"></i></button>
-        <button class="btn-icon me-1" title="Editar" onclick="openEditModal('${c.id}')"><i class="bi bi-pencil"></i></button>
-        <button class="btn-icon danger" title="Apagar" onclick="deleteContact('${c.id}')"><i class="bi bi-trash"></i></button>
+        <button class="btn-ghost msg me-1" title="Mensagem" onclick="openMsgModal('${c.id}')"><ion-icon name="chatbubble-outline"></ion-icon></button>
+        <button class="btn-ghost me-1" title="Editar" onclick="openEditModal('${c.id}')"><ion-icon name="create-outline"></ion-icon></button>
+        <button class="btn-ghost del" title="Apagar" onclick="deleteContact('${c.id}')"><ion-icon name="trash-outline"></ion-icon></button>
       </td>
     </tr>`;
   }).join('');
 }
 
-function openEditModal(id) {
-  editingId = id;
-  const isNew = !id;
-  document.getElementById('editModalTitle').textContent = isNew ? 'Novo Contacto' : 'Editar Contacto';
-  if (isNew) {
-    ['f_nome','f_cargo','f_empresa','f_profissao','f_linkedin'].forEach(f => document.getElementById(f).value = '');
-    document.getElementById('f_parceiro').value = 'all';
-    document.getElementById('f_estado').value = 'novo';
-  } else {
-    const c = contacts.find(x => x.id === id);
-    if (!c) return;
-    document.getElementById('f_nome').value = c.nome || '';
-    document.getElementById('f_cargo').value = c.cargo || '';
-    document.getElementById('f_empresa').value = c.empresa || '';
-    document.getElementById('f_profissao').value = c.profissao || '';
-    document.getElementById('f_linkedin').value = c.linkedin || '';
-    document.getElementById('f_parceiro').value = c.parceiro || 'all';
-    document.getElementById('f_estado').value = c.estado || 'novo';
+function openEditModal(id){
+  editingId=id;
+  document.getElementById('editTitle').textContent=id?'Editar Contacto':'Novo Contacto';
+  if(!id){
+    ['f_nome','f_cargo','f_empresa','f_profissao','f_linkedin'].forEach(f=>document.getElementById(f).value='');
+    document.getElementById('f_tipo').value='geral';
+    document.getElementById('f_estado').value='novo';
+  }else{
+    const c=contacts.find(x=>x.id===id);if(!c)return;
+    document.getElementById('f_nome').value=c.nome||'';
+    document.getElementById('f_cargo').value=c.cargo||'';
+    document.getElementById('f_empresa').value=c.empresa||'';
+    document.getElementById('f_profissao').value=c.profissao||'';
+    document.getElementById('f_linkedin').value=c.linkedin||'';
+    document.getElementById('f_tipo').value=c.tipo||'geral';
+    document.getElementById('f_estado').value=c.estado||'novo';
   }
-  editModal.show();
-  setTimeout(() => document.getElementById('f_nome').focus(), 300);
+  editModalEl.show();
+  setTimeout(()=>document.getElementById('f_nome').focus(),350);
 }
 
-function handleFormKey(e) {
-  if (e.key === 'Enter') { e.preventDefault(); saveContact(true); }
+function handleKey(e){if(e.key==='Enter'){e.preventDefault();saveContact(true);}}
+
+function saveContact(addNew=false){
+  const data={nome:document.getElementById('f_nome').value.trim(),cargo:document.getElementById('f_cargo').value.trim(),empresa:document.getElementById('f_empresa').value.trim(),profissao:document.getElementById('f_profissao').value.trim(),linkedin:document.getElementById('f_linkedin').value.trim(),tipo:document.getElementById('f_tipo').value,estado:document.getElementById('f_estado').value};
+  if(editingId){Object.assign(contacts.find(x=>x.id===editingId),data);}
+  else{contacts.push({id:uid(),...data});}
+  save();renderTable();
+  toast(editingId?'Contacto atualizado!':'Contacto adicionado!');
+  if(addNew){
+    editingId=null;
+    ['f_nome','f_cargo','f_empresa','f_profissao','f_linkedin'].forEach(f=>document.getElementById(f).value='');
+    document.getElementById('f_tipo').value='geral';document.getElementById('f_estado').value='novo';
+    setTimeout(()=>document.getElementById('f_nome').focus(),50);
+  }else{editModalEl.hide();}
 }
 
-function saveContact(addNew = false) {
-  const nome = document.getElementById('f_nome').value.trim();
-  const cargo = document.getElementById('f_cargo').value.trim();
-  const empresa = document.getElementById('f_empresa').value.trim();
-  const profissao = document.getElementById('f_profissao').value.trim();
-  const linkedin = document.getElementById('f_linkedin').value.trim();
-  const parceiro = document.getElementById('f_parceiro').value;
-  const estado = document.getElementById('f_estado').value;
-
-  if (editingId) {
-    const c = contacts.find(x => x.id === editingId);
-    if (c) Object.assign(c, { nome, cargo, empresa, profissao, linkedin, parceiro, estado });
-  } else {
-    contacts.push({ id: uid(), nome, cargo, empresa, profissao, linkedin, parceiro, estado });
-  }
-  save(); renderTable();
-  showToast(editingId ? 'Contacto atualizado!' : 'Contacto adicionado!');
-  if (addNew) {
-    editingId = null;
-    ['f_nome','f_cargo','f_empresa','f_profissao','f_linkedin'].forEach(f => document.getElementById(f).value = '');
-    document.getElementById('f_parceiro').value = 'all';
-    document.getElementById('f_estado').value = 'novo';
-    document.getElementById('f_nome').focus();
-  } else {
-    editModal.hide();
-  }
+function deleteContact(id){
+  if(!confirm('Apagar este contacto?'))return;
+  contacts=contacts.filter(x=>x.id!==id);save();renderTable();toast('Contacto apagado.');
 }
 
-function deleteContact(id) {
-  if (!confirm('Apagar este contacto? Esta ação não pode ser desfeita.')) return;
-  contacts = contacts.filter(x => x.id !== id);
-  save(); renderTable();
-  showToast('Contacto apagado.');
+// ─── MSG TYPES ────────────────────────────────────────────────────────────────
+const MSG_TYPES=[
+  {key:'parceria',ion:'people-outline',label:'Parceria Comercial',sub:'Reseller · Referral · Expert'},
+  {key:'regional',ion:'location-outline',label:'Rep. Regional',sub:'Parceria empresarial'},
+  {key:'investidor',ion:'trending-up-outline',label:'Investidor',sub:'Seed / Capital'},
+];
+
+function openMsgModal(id){
+  msgContactId=id;
+  const c=contacts.find(x=>x.id===id);if(!c)return;
+  const tipoRaw=c.tipo||'parceria';
+  currentMsgType=['reseller','referral','expert','geral'].includes(tipoRaw)?'parceria':tipoRaw;
+  currentMsgLang=globalLang;
+  document.getElementById('msgSub').textContent=`${c.nome||'—'} · ${c.cargo||''} ${c.empresa?'· '+c.empresa:''}`;
+  // sync lang buttons to global
+  document.querySelectorAll('#msgLangBtns .msg-lang-btn').forEach(b=>{
+    const isActive=(globalLang==='pt'&&b.textContent.includes('PT'))||(globalLang==='en'&&b.textContent.includes('EN'))||(globalLang==='es'&&b.textContent.includes('ES'));
+    b.classList.toggle('active',isActive);
+  });
+  buildTypeGrid();
+  document.getElementById('msgArea').value=buildMsg(c,currentMsgType,currentMsgLang);
+  msgModalEl.show();
 }
 
-function openMsgModal(id) {
-  msgContactId = id;
-  currentPartner = 'all';
-  const c = contacts.find(x => x.id === id);
-  if (!c) return;
-  document.getElementById('msgModalSub').textContent = `${c.nome || '—'} · ${c.cargo || ''} ${c.empresa ? '· ' + c.empresa : ''}`;
-  document.getElementById('msgArea').value = buildMsg(c, c.parceiro || 'all');
-  currentPartner = c.parceiro || 'all';
-  document.querySelectorAll('.ptab').forEach(b => { b.className = 'ptab'; });
-  const activeTab = document.querySelectorAll('.ptab')[['all','reseller','referral','expert'].indexOf(currentPartner)];
-  if (activeTab) activeTab.classList.add('active-' + currentPartner);
-  msgModal.show();
+function buildTypeGrid(){
+  document.getElementById('msgTypeGrid').innerHTML=MSG_TYPES.map(t=>`
+    <button class="msg-type-btn${currentMsgType===t.key?' active':''}" onclick="selectMsgType('${t.key}',this)">
+      <ion-icon name="${t.ion}" class="ic" style="font-size:22px;display:block;margin-bottom:4px"></ion-icon>
+      <span class="t">${t.label}</span><span class="s">${t.sub}</span>
+    </button>`).join('');
 }
 
-function selectPartner(type, btn) {
-  currentPartner = type;
-  document.querySelectorAll('.ptab').forEach(b => { b.className = 'ptab'; b.style.cssText = ''; });
-  const colors = { reseller: 'var(--edu-reseller)', referral: 'var(--edu-referral)', expert: 'var(--edu-expert)' };
-  btn.classList.add('active-' + type);
-  const c = contacts.find(x => x.id === msgContactId);
-  if (c) document.getElementById('msgArea').value = buildMsg(c, type);
+function selectMsgType(type,btn){
+  currentMsgType=type;
+  document.querySelectorAll('.msg-type-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const c=contacts.find(x=>x.id===msgContactId);
+  if(c)document.getElementById('msgArea').value=buildMsg(c,type,currentMsgLang);
 }
 
-function buildMsg(c, type) {
-  const nome = c.nome ? c.nome.split(' ')[0] : '';
-  const cargo = c.cargo || 'profissional';
-  const empresa = c.empresa || 'a sua organização';
-  const partnerInfo = {
-    all: `Temos três modelos disponíveis no nosso programa:\n\n• Parceiro Reseller — assume o processo completo de pré-venda e negociação com os clientes, com acesso a formação especializada em vendas e comissões competitivas.\n\n• Parceiro Referral — referencia instituições que precisem de digitalizar a sua gestão escolar e ganha uma comissão por cada uma que adira ao Eduall, além de oferecer um desconto especial aos seus contactos.\n\n• Parceiro Expert — inclui gestão total do canal de distribuição, formação em vendas, produto e marketing, com benefícios exclusivos e margens altamente competitivas.`,
-    reseller: `O nosso modelo Parceiro Reseller foi criado para profissionais e empresas que queiram assumir o processo comercial de forma completa: pré-venda, negociação e fecho de contratos. Em troca, oferecemos formação especializada em vendas, condições comerciais atrativas e comissões competitivas.`,
-    referral: `O nosso modelo Parceiro Referral é simples e eficaz: referencia instituições que precisem de digitalizar a sua gestão escolar e recebe uma comissão por cada uma que adira ao Eduall. Adicionalmente, pode oferecer um desconto especial aos seus contactos, aumentando a sua rede de influência no setor.`,
-    expert: `O nosso modelo Parceiro Expert é o mais abrangente: inclui gestão completa do canal de distribuição, formação aprofundada em vendas, produto e estratégias de marketing, e benefícios exclusivos com margens altamente competitivas — pensado para parceiros que queiram crescer connosco de forma estruturada.`
+// ─── MESSAGE BUILDER (3 languages) ───────────────────────────────────────────
+function buildMsg(c,type,lang='pt'){
+  const nome=c.nome?c.nome.split(' ')[0]:'';
+  const cargo=c.cargo||'profissional';
+  const empresa=c.empresa||'a sua organização';
+  const temEmpresa=empresa!=='a sua organização';
+  // normalise legacy types
+  const t=['reseller','referral','expert','geral'].includes(type)?'parceria':type;
+  if(lang==='en') return buildMsgEN(c,t,nome,cargo,empresa,temEmpresa);
+  if(lang==='es') return buildMsgES(c,t,nome,cargo,empresa,temEmpresa);
+  return buildMsgPT(c,t,nome,cargo,empresa,temEmpresa);
+}
+
+// ── PORTUGUESE ──
+function buildMsgPT(c,type,nome,cargo,empresa,temEmpresa){
+  const intro=`Olá ${nome},\n\n`;
+  const sig=`\n\nFico ao dispor para qualquer questão.\n\nCom os melhores cumprimentos,\nKiosso Camuegi\nCEO — Eduall\nsales@eduall.ao | +244 943 220 865 | +244 926 282 750\nwww.eduall.ao`;
+  const bodies={
+    parceria:`O meu nome é Kiosso Camuegi e sou CEO da Eduall — uma plataforma angolana de gestão de instituições de ensino, presente em colégios, escolas públicas e universidades em Angola.\n\nVi o seu perfil e, pela sua experiência como ${cargo}${temEmpresa?' na '+empresa:''}, acredito que existe uma excelente oportunidade de colaboração no âmbito do nosso Programa de Parcerias Comerciais.\n\nTemos três modelos disponíveis no nosso programa:\n\n• Parceiro Reseller — assume o processo completo de pré-venda e negociação com os clientes, com acesso a formação especializada em vendas e comissões competitivas.\n• Parceiro Referral — referencia instituições que precisem de digitalizar a sua gestão escolar e ganha uma comissão por cada uma que adira ao Eduall, além de oferecer um desconto especial aos seus contactos.\n• Parceiro Expert — inclui gestão total do canal de distribuição, formação em vendas, produto e marketing, com benefícios exclusivos e margens altamente competitivas.\n\nO Eduall disponibiliza módulos de secretaria, finanças, pedagogia, portal do professor, aluno e encarregado — tudo numa plataforma integrada, pensada para o contexto africano.\n\nCaso esteja disponível, podemos agendar uma reunião no nosso escritório em Luanda (Centralidade do Kilamba, Bloco D20, Apt. 63, 6.º Andar) ou enviar-lhe uma proposta completa.`,
+    regional:`O meu nome é Kiosso Camuegi e sou CEO da Eduall — software angolano de gestão de instituições de ensino, presente em colégios, escolas e universidades em Angola.\n\nEstamos a estruturar a nossa rede de Representantes Regionais em Angola e em outros mercados africanos, e o perfil de ${temEmpresa?empresa:'a sua empresa'} destaca-se como um potencial parceiro estratégico para esta iniciativa.\n\nA proposta é a seguinte: a Eduall e ${temEmpresa?empresa:'a sua empresa'} formalizam uma parceria regional, na qual passam a representar oficialmente a Eduall na vossa área de influência. Em termos práticos:\n\n• ${temEmpresa?empresa:'A sua empresa'} torna-se Representante Oficial da Eduall na região\n• Recebem uma percentagem das receitas geradas em toda a região representada\n• Acesso a condições comerciais preferenciais, suporte contínuo e formação dedicada\n• Co-branded marketing — a força da vossa marca aliada à da Eduall\n\nCaso esteja disponível, podemos agendar uma reunião no nosso escritório em Luanda (Centralidade do Kilamba, Bloco D20, Apt. 63, 6.º Andar) ou enviar-lhe uma proposta formal.`,
+    investidor:`O meu nome é Kiosso Camuegi e sou CEO da Eduall — uma startup angolana de tecnologia educacional (EdTech), fundada com a missão de digitalizar e modernizar a gestão das instituições de ensino em África.\n\nO seu perfil como ${cargo}${temEmpresa?' na '+empresa:''} chamou a minha atenção, e gostaria de apresentar uma oportunidade de investimento na nossa ronda Seed.\n\nSobre a Eduall:\n• Software SaaS de gestão escolar — secretaria, finanças, pedagogia, portais de aluno, professor e encarregado\n• Presente em colégios, escolas públicas e universidades em Angola\n• Modelo de receita recorrente (MRR) com contratos mensais, trimestrais e anuais\n• Planos entre 99.999 Kz e 469.999 Kz/mês\n\nCaso tenha interesse em saber mais, posso enviar-lhe o nosso deck de investimento ou podemos agendar uma reunião no nosso escritório em Luanda (Centralidade do Kilamba, Bloco D20, Apt. 63, 6.º Andar).`,
   };
-  return `Olá ${nome},
-
-O meu nome é Kiosso Camuegi e sou CEO da Eduall — um software angolano de gestão de instituições de ensino, já presente em colégios, escolas públicas e universidades em Angola.
-
-O seu perfil como ${cargo}${empresa !== 'a sua organização' ? ' na ' + empresa : ''} chamou a minha atenção, e acredito que existe uma excelente oportunidade de colaboração no âmbito do nosso Programa de Parcerias.
-
-${partnerInfo[type] || partnerInfo.all}
-
-O Eduall disponibiliza módulos completos de secretaria, finanças, pedagogia, transporte escolar, portal do professor, portal do aluno e portal do encarregado — tudo numa plataforma integrada, desenhada para o contexto africano.
-
-Caso esteja disponível para conversar, podemos agendar uma reunião no nosso escritório em Luanda (Centralidade do Kilamba, Bloco D20, Apt. 63, 6.º Andar) ou enviar-lhe uma proposta completa com todos os planos e condições de parceria.
-
-Fico ao dispor para qualquer questão.
-
-Com os melhores cumprimentos,
-Kiosso Camuegi
-CEO — Eduall
-sales@eduall.ao | +244 943 220 865 | +244 926 282 750
-www.eduall.ao`;
+  return intro+(bodies[type]||bodies.parceria)+sig;
 }
 
-function copyMsg() {
-  const ta = document.getElementById('msgArea');
-  if (!ta) return;
-  navigator.clipboard.writeText(ta.value).then(() => {
-    const fb = document.getElementById('copyFeedback');
-    fb.style.display = 'inline';
-    setTimeout(() => fb.style.display = 'none', 2500);
-    showToast('Mensagem copiada!');
+// ── ENGLISH ──
+function buildMsgEN(c,type,nome,cargo,empresa,temEmpresa){
+  const intro=`Hello ${nome},\n\n`;
+  const sig=`\n\nI remain at your disposal for any questions.\n\nBest regards,\nKiosso Camuegi\nCEO — Eduall\nsales@eduall.ao | +244 943 220 865 | +244 926 282 750\nwww.eduall.ao`;
+  const bodies={
+    parceria:`My name is Kiosso Camuegi and I am the CEO of Eduall — an Angolan platform for educational institution management, present in private schools, public schools, and universities across Angola.\n\nI came across your profile and, given your experience as ${cargo}${temEmpresa?' at '+empresa:''}, I believe there is an excellent opportunity for collaboration within our Commercial Partnership Program.\n\nWe have three models available in our program:\n\n• Reseller Partner — takes on the full pre-sales and negotiation process with clients, with access to specialized sales training and competitive commissions.\n• Referral Partner — refers institutions that need to digitize their school management and earns a commission for each one that joins Eduall, while also offering a special discount to their contacts.\n• Expert Partner — includes full distribution channel management, sales, product and marketing training, with exclusive benefits and highly competitive margins.\n\nEduall provides modules for administration, finance, pedagogy, teacher portal, student portal, and parent portal — all in one integrated platform built for the African context.\n\nIf you're available, we can schedule a meeting at our office in Luanda (Centralidade do Kilamba, Block D20, Apt. 63, 6th Floor) or send you a full proposal.`,
+    regional:`My name is Kiosso Camuegi and I am the CEO of Eduall — an Angolan school management software present in schools and universities across Angola.\n\nWe are building our Regional Representative network in Angola and other African markets, and ${temEmpresa?empresa+'\'s profile':'your company\'s profile'} stands out as a potential strategic partner for this initiative.\n\nThe proposal is as follows: Eduall and ${temEmpresa?empresa:'your company'} formalize a regional partnership, in which you become an official representative of Eduall in your area of influence. In practical terms:\n\n• ${temEmpresa?empresa:'Your company'} becomes an Official Eduall Representative in the region\n• You receive a percentage of revenues generated throughout the represented region\n• Access to preferential commercial conditions, ongoing support, and dedicated training\n• Co-branded marketing — your brand strength combined with Eduall's\n\nIf you're available to explore this possibility, we can schedule a meeting at our office in Luanda (Centralidade do Kilamba, Block D20, Apt. 63, 6th Floor) or send you a formal proposal.`,
+    investidor:`My name is Kiosso Camuegi and I am the CEO of Eduall — an Angolan EdTech startup founded with the mission of digitizing and modernizing educational institution management across Africa.\n\nYour profile as ${cargo}${temEmpresa?' at '+empresa:''} caught my attention, and I would like to present an investment opportunity in our Seed round.\n\nAbout Eduall:\n• SaaS school management software — administration, finance, pedagogy, student, teacher, and parent portals\n• Present in private schools, public schools, and universities in Angola\n• Recurring revenue model (MRR) with monthly, quarterly, and annual contracts\n• Plans ranging from 99,999 Kz to 469,999 Kz/month\n\nIf you're interested in learning more, I can send you our full investment deck, or we can schedule a meeting at our office in Luanda (Centralidade do Kilamba, Block D20, Apt. 63, 6th Floor).`,
+  };
+  return intro+(bodies[type]||bodies.parceria)+sig;
+}
+
+// ── SPANISH ──
+function buildMsgES(c,type,nome,cargo,empresa,temEmpresa){
+  const intro=`Hola ${nome},\n\n`;
+  const sig=`\n\nQuedo a su disposición para cualquier consulta.\n\nUn cordial saludo,\nKiosso Camuegi\nCEO — Eduall\nsales@eduall.ao | +244 943 220 865 | +244 926 282 750\nwww.eduall.ao`;
+  const bodies={
+    parceria:`Mi nombre es Kiosso Camuegi y soy CEO de Eduall — una plataforma angoleña de gestión de instituciones educativas, presente en colegios, escuelas públicas y universidades en Angola.\n\nVi su perfil y, dada su experiencia como ${cargo}${temEmpresa?' en '+empresa:''}, creo que existe una excelente oportunidad de colaboración en el marco de nuestro Programa de Alianzas Comerciales.\n\nTenemos tres modelos disponibles en nuestro programa:\n\n• Socio Reseller — asume el proceso completo de preventa y negociación con los clientes, con acceso a formación especializada en ventas y comisiones competitivas.\n• Socio Referral — refiere instituciones que necesiten digitalizar su gestión escolar y gana una comisión por cada una que se una a Eduall, además de ofrecer un descuento especial a sus contactos.\n• Socio Expert — incluye la gestión total del canal de distribución, formación en ventas, producto y marketing, con beneficios exclusivos y márgenes altamente competitivos.\n\nEduall ofrece módulos de secretaría, finanzas, pedagogía, portal del profesor, del alumno y del responsable — todo en una plataforma integrada, diseñada para el contexto africano.\n\nSi está disponible, podemos agendar una reunión en nuestra oficina en Luanda (Centralidade do Kilamba, Bloque D20, Apt. 63, 6.º Piso) o enviarle una propuesta completa.`,
+    regional:`Mi nombre es Kiosso Camuegi y soy CEO de Eduall — software angoleño de gestión de instituciones educativas, presente en colegios, escuelas y universidades en Angola.\n\nEstamos estructurando nuestra red de Representantes Regionales en Angola y otros mercados africanos, y el perfil de ${temEmpresa?empresa:'su empresa'} destaca como potencial socio estratégico para esta iniciativa.\n\nLa propuesta es la siguiente: Eduall y ${temEmpresa?empresa:'su empresa'} formalizan una alianza regional, en la que pasan a representar oficialmente a Eduall en su área de influencia. En términos prácticos:\n\n• ${temEmpresa?empresa:'Su empresa'} se convierte en Representante Oficial de Eduall en la región\n• Reciben un porcentaje de los ingresos generados en toda la región representada\n• Acceso a condiciones comerciales preferenciales, soporte continuo y formación dedicada\n• Marketing co-branded — la fuerza de su marca aliada a la de Eduall\n\nSi está disponible para explorar esta posibilidad, podemos agendar una reunión o enviarle una propuesta formal.`,
+    investidor:`Mi nombre es Kiosso Camuegi y soy CEO de Eduall — una startup angoleña de tecnología educativa (EdTech), fundada con la misión de digitalizar y modernizar la gestión de las instituciones educativas en África.\n\nSu perfil como ${cargo}${temEmpresa?' en '+empresa:''} llamó mi atención, y me gustaría presentarle una oportunidad de inversión en nuestra ronda Seed.\n\nSobre Eduall:\n• Software SaaS de gestión escolar — secretaría, finanzas, pedagogía, portales de alumno, profesor y responsable\n• Presente en colegios, escuelas públicas y universidades en Angola\n• Modelo de ingresos recurrentes (MRR) con contratos mensuales, trimestrales y anuales\n• Planes entre 99.999 Kz y 469.999 Kz/mes\n\nSi está interesado en saber más, puedo enviarle nuestro deck de inversión completo o podemos agendar una reunión en nuestra oficina en Luanda (Centralidade do Kilamba, Bloque D20, Apt. 63, 6.º Piso).`,
+  };
+  return intro+(bodies[type]||bodies.parceria)+sig;
+}
+
+function copyMsg(){
+  const ta=document.getElementById('msgArea');if(!ta)return;
+  navigator.clipboard.writeText(ta.value).then(()=>{
+    const fb=document.getElementById('copyFb');fb.style.display='inline';
+    setTimeout(()=>fb.style.display='none',2500);toast('Mensagem copiada!');
   });
 }
 
-function markSent() {
-  const c = contacts.find(x => x.id === msgContactId);
-  if (c) { c.estado = 'enviado'; save(); renderTable(); showToast('Marcado como enviado!'); }
-  msgModal.hide();
+function markSent(){
+  const c=contacts.find(x=>x.id===msgContactId);
+  if(c){c.estado='enviado';save();renderTable();toast('Marcado como enviado!');}
+  msgModalEl.hide();
 }
 
-function exportExcel() {
-  if (!window.XLSX) { alert('A carregar a biblioteca, tente novamente.'); return; }
-  const data = contacts.map((c, i) => ({
-    '#': i + 1,
-    'Nome': c.nome || '',
-    'Cargo': c.cargo || '',
-    'Empresa / Instituição': c.empresa || '',
-    'Profissão': c.profissao || '',
-    'LinkedIn': c.linkedin || '',
-    'Tipo de Parceria': c.parceiro || 'geral',
-    'Estado': c.estado || 'novo'
-  }));
-  const ws = XLSX.utils.json_to_sheet(data);
-  ws['!cols'] = [5,22,20,24,20,35,16,12].map(w => ({ wch: w }));
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, 'Contactos Parcerias');
-  XLSX.writeFile(wb, 'Contactos_Parcerias_Eduall.xlsx');
-  showToast('Ficheiro Excel exportado!');
+// ─── EXPORT EXCEL ─────────────────────────────────────────────────────────────
+function exportExcel(){
+  if(!window.XLSX){alert('A carregar biblioteca, tente novamente.');return;}
+  const data=contacts.map((c,i)=>({'#':i+1,'Nome':c.nome||'','Cargo':c.cargo||'','Empresa':c.empresa||'','Profissão':c.profissao||'','LinkedIn':c.linkedin||'','Tipo':c.tipo||'geral','Estado':c.estado||'novo'}));
+  const ws=XLSX.utils.json_to_sheet(data);
+  ws['!cols']=[4,22,20,24,20,35,16,12].map(w=>({wch:w}));
+  const wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,'Contactos');
+  XLSX.writeFile(wb,'Contactos_Eduall.xlsx');
+  toast('Excel exportado!');
 }
 
-// Init
-load();
-renderTable();
+// ─── IMPORT EXCEL ─────────────────────────────────────────────────────────────
+function openImportModal(){
+  importedRows=[];
+  document.getElementById('importDropWrap').style.display='block';
+  document.getElementById('importPreview').style.display='none';
+  document.getElementById('importConfirmBtn').disabled=true;
+  document.getElementById('importFileInput').value='';
+  importModalEl.show();
+}
+
+function resetImport(){
+  importedRows=[];
+  document.getElementById('importDropWrap').style.display='block';
+  document.getElementById('importPreview').style.display='none';
+  document.getElementById('importConfirmBtn').disabled=true;
+  document.getElementById('importFileInput').value='';
+}
+
+function handleDrop(e){
+  e.preventDefault();
+  document.getElementById('importZone').classList.remove('drag');
+  const file=e.dataTransfer.files[0];
+  if(file) processImportFile(file);
+}
+
+function handleFileSelect(e){
+  const file=e.target.files[0];
+  if(file) processImportFile(file);
+}
+
+function processImportFile(file){
+  if(!window.XLSX){toast('Biblioteca XLSX não carregada.',true);return;}
+  const reader=new FileReader();
+  reader.onload=function(ev){
+    try{
+      const wb=XLSX.read(ev.target.result,{type:'array'});
+      const ws=wb.Sheets[wb.SheetNames[0]];
+      const rows=XLSX.utils.sheet_to_json(ws);
+      if(!rows.length){toast('Ficheiro vazio ou formato inválido.',true);return;}
+
+      const get=(r,...keys)=>{for(const k of keys){const v=r[k]??r[k.toLowerCase()]??r[k.toUpperCase()];if(v!==undefined&&v!=='')return String(v).trim();}return '';};
+      importedRows=rows.map(r=>({
+        id:uid(),
+        nome:get(r,'Nome','Name','Nombre'),
+        cargo:get(r,'Cargo','Position','Título','Title'),
+        empresa:get(r,'Empresa','Company','Compañía'),
+        profissao:get(r,'Profissão','Profissao','Profession','Profesión'),
+        linkedin:get(r,'LinkedIn','linkedin','Linkedin'),
+        tipo:(get(r,'Tipo','Type','Tipo')||'geral').toLowerCase(),
+        estado:(get(r,'Estado','Status','Estado')||'novo').toLowerCase()
+      }));
+
+      document.getElementById('importDropWrap').style.display='none';
+      document.getElementById('importPreview').style.display='block';
+      document.getElementById('importConfirmBtn').disabled=false;
+      refreshImportList();
+    }catch(err){
+      toast('Erro ao ler o ficheiro. Use um Excel exportado pelo Eduall.',true);
+      console.error(err);
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function isDuplicate(row){
+  return contacts.some(c=>
+    (c.nome||'').toLowerCase()===(row.nome||'').toLowerCase()&&
+    (c.empresa||'').toLowerCase()===(row.empresa||'').toLowerCase()
+  );
+}
+
+function refreshImportList(){
+  const mode=document.getElementById('importMode').value;
+  const TIPO_LABELS={reseller:'Reseller',referral:'Referral',expert:'Expert',regional:'Rep. Regional',investidor:'Investidor',geral:'Geral'};
+  const ESTADO_LABELS={novo:'Novo',pendente:'Pendente',enviado:'Enviado'};
+  const TIPO_CLS={reseller:'tag-reseller',referral:'tag-referral',expert:'tag-expert',regional:'tag-regional',investidor:'tag-investidor',geral:'tag-geral'};
+  const ESTADO_CLS={novo:'b-novo',pendente:'b-pendente',enviado:'b-enviado'};
+
+  let toImport=0,toSkip=0;
+  const rows=importedRows.map((r,i)=>{
+    const dup=mode==='merge'&&isDuplicate(r);
+    if(dup)toSkip++;else toImport++;
+    const tipoCls=TIPO_CLS[r.tipo]||'tag-geral';
+    const tipoLbl=TIPO_LABELS[r.tipo]||r.tipo||'Geral';
+    const estCls=ESTADO_CLS[r.estado]||'b-novo';
+    const estLbl=ESTADO_LABELS[r.estado]||r.estado||'Novo';
+    const statusCell=dup
+      ?`<span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--amber);background:var(--amber-light);padding:2px 9px;border-radius:100px"><i class="bi bi-skip-forward"></i>Duplicado</span>`
+      :`<span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--green);background:var(--green-light);padding:2px 9px;border-radius:100px"><i class="bi bi-plus-circle"></i>Novo</span>`;
+    return`<tr style="${dup?'opacity:.55':''}">
+      <td style="padding:9px 12px;border-bottom:1px solid #f3f4f8;font-size:12px;color:var(--muted);width:36px">${i+1}</td>
+      <td style="padding:9px 12px;border-bottom:1px solid #f3f4f8;font-weight:600;font-size:13px">${esc(r.nome)||'<span style="color:#d1d5db">—</span>'}</td>
+      <td style="padding:9px 12px;border-bottom:1px solid #f3f4f8;font-size:13px;color:var(--muted)">${esc(r.cargo)||'—'}</td>
+      <td style="padding:9px 12px;border-bottom:1px solid #f3f4f8;font-size:13px">${esc(r.empresa)||'—'}</td>
+      <td style="padding:9px 12px;border-bottom:1px solid #f3f4f8"><span class="tag ${tipoCls}">${tipoLbl}</span></td>
+      <td style="padding:9px 12px;border-bottom:1px solid #f3f4f8"><span class="badge-pill ${estCls}"><span class="badge-dot"></span>${estLbl}</span></td>
+      <td style="padding:9px 12px;border-bottom:1px solid #f3f4f8">${statusCell}</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('importListBody').innerHTML=rows;
+  document.getElementById('importListCount').textContent=`${importedRows.length} total`;
+
+  let summary='';
+  if(mode==='replace'){
+    summary=`<span style="color:var(--rose)"><i class="bi bi-exclamation-triangle me-1"></i>Substitui todos os ${contacts.length} contactos existentes por ${importedRows.length} novos</span>`;
+  }else if(mode==='append'){
+    summary=`<span style="color:var(--teal)"><i class="bi bi-plus-circle me-1"></i>Adiciona ${importedRows.length} contacto(s) (duplicados incluídos)</span>`;
+  }else{
+    summary=`<span style="color:var(--green)"><i class="bi bi-check-circle me-1"></i>${toImport} a importar</span>${toSkip?` &nbsp;<span style="color:var(--amber)"><i class="bi bi-skip-forward me-1"></i>${toSkip} duplicado(s) ignorado(s)</span>`:''}`;
+  }
+  document.getElementById('importSummary').innerHTML=summary;
+
+  // disable confirm if nothing to import in merge mode
+  document.getElementById('importConfirmBtn').disabled=(mode==='merge'&&toImport===0);
+}
+
+function confirmImport(){
+  if(!importedRows.length)return;
+  const mode=document.getElementById('importMode').value;
+  let added=0,skipped=0;
+  if(mode==='replace'){
+    contacts=importedRows.map(r=>({...r,id:uid()}));
+    added=contacts.length;
+  }else if(mode==='append'){
+    const newRows=importedRows.map(r=>({...r,id:uid()}));
+    contacts=[...contacts,...newRows];
+    added=newRows.length;
+  }else{
+    for(const row of importedRows){
+      if(isDuplicate(row)){skipped++;continue;}
+      contacts.push({...row,id:uid()});added++;
+    }
+  }
+  save(); // persist to localStorage
+  renderTable();
+  importModalEl.hide();
+  toast(`✓ Importados: ${added} contacto(s)${skipped?` · Ignorados: ${skipped} duplicado(s)`:''}`);
+}
+
+load();renderTable();
 </script>
 </body>
 </html>
