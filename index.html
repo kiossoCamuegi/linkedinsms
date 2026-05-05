@@ -532,45 +532,105 @@
     <div class="modal-content">
       <div class="modal-header">
         <div>
-          <div class="modal-title">Proposta de Representação Comercial</div>
-          <div style="font-size:.75rem;opacity:.75;margin-top:2px;">Dados da empresa representante (opcional — deixe em branco para preencher à mão)</div>
+          <div class="modal-title" id="proposalModalTitle">Proposta de Representação Comercial</div>
+          <div style="font-size:.75rem;opacity:.75;margin-top:2px;" id="proposalModalSub">Dados da empresa representante (opcional — deixe em branco para preencher à mão)</div>
         </div>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
-        <div class="section-label">Representante VRL (Signatário)</div>
-        <div class="row g-3">
-          <div class="col-md-6"><label class="form-label">Nome do Signat&aacute;rio VRL</label><input id="p_vrl_nome" class="form-control" value="Lumanisa Manuel"/></div>
-          <div class="col-md-6"><label class="form-label">Cargo do Signat&aacute;rio VRL</label><input id="p_vrl_cargo" class="form-control" value="Director Geral"/></div>
+        <!-- TIPO DE PROPOSTA -->
+        <div class="section-label">Tipo de Proposta</div>
+        <div class="contract-selector" style="margin-bottom:0;">
+          <div class="contract-type-btn active" id="btnProposalTypeComercial" onclick="selectProposalType('comercial')">
+            <div class="ct-icon"><ion-icon name="briefcase-outline"></ion-icon></div>
+            <div class="ct-title">Representação Comercial</div>
+            <div class="ct-sub">Empresas que vendem o EDUALL</div>
+          </div>
+          <div class="contract-type-btn" id="btnProposalTypePublico" onclick="selectProposalType('publico')">
+            <div class="ct-icon"><ion-icon name="business-outline"></ion-icon></div>
+            <div class="ct-title">Parceria com Entidades Públicas</div>
+            <div class="ct-sub">Facilitação e acesso a órgãos públicos</div>
+          </div>
         </div>
-        <div class="section-label">Empresa Representante <span style="font-weight:400;color:#aaa;font-size:.68rem;letter-spacing:0;text-transform:none;">— opcional</span></div>
-        <div class="row g-3">
-          <div class="col-md-8"><label class="form-label">Nome da Empresa</label><input id="p_empresa" class="form-control" placeholder="Ex: Distribuição Comercial Lda."/></div>
-          <div class="col-md-4"><label class="form-label">NIF</label><input id="p_nif" class="form-control" placeholder="Ex: 5001234567"/></div>
-          <div class="col-md-6"><label class="form-label">Nome do Representante Legal</label><input id="p_rep" class="form-control" placeholder="Ex: Maria Fernanda da Costa"/></div>
-          <div class="col-md-6"><label class="form-label">Cargo do Representante</label><input id="p_cargo" class="form-control" placeholder="Ex: Directora Geral"/></div>
-          <div class="col-md-6"><label class="form-label">Sede / Localidade</label><input id="p_sede" class="form-control" placeholder="Ex: Luanda"/></div>
+
+        <!-- FORM COMERCIAL (existente) -->
+        <div id="formProposalComercial">
+          <div class="section-label">Representante VRL (Signatário)</div>
+          <div class="row g-3">
+            <div class="col-md-6"><label class="form-label">Nome do Signat&aacute;rio VRL</label><input id="p_vrl_nome" class="form-control" value="Lumanisa Manuel"/></div>
+            <div class="col-md-6"><label class="form-label">Cargo do Signat&aacute;rio VRL</label><input id="p_vrl_cargo" class="form-control" value="Director Geral"/></div>
+          </div>
+          <div class="section-label">Empresa Representante <span style="font-weight:400;color:#aaa;font-size:.68rem;letter-spacing:0;text-transform:none;">— opcional</span></div>
+          <div class="row g-3">
+            <div class="col-md-8"><label class="form-label">Nome da Empresa</label><input id="p_empresa" class="form-control" placeholder="Ex: Distribuição Comercial Lda."/></div>
+            <div class="col-md-4"><label class="form-label">NIF</label><input id="p_nif" class="form-control" placeholder="Ex: 5001234567"/></div>
+            <div class="col-md-6"><label class="form-label">Nome do Representante Legal</label><input id="p_rep" class="form-control" placeholder="Ex: Maria Fernanda da Costa"/></div>
+            <div class="col-md-6"><label class="form-label">Cargo do Representante</label><input id="p_cargo" class="form-control" placeholder="Ex: Directora Geral"/></div>
+            <div class="col-md-6"><label class="form-label">Sede / Localidade</label><input id="p_sede" class="form-control" placeholder="Ex: Luanda"/></div>
+          </div>
+          <div class="section-label">Condições Comerciais</div>
+          <div class="row g-3">
+            <div class="col-md-4"><label class="form-label">Comissão Base (%)</label><input id="p_comissao_base" class="form-control" value="15"/></div>
+            <div class="col-md-4"><label class="form-label">Comissão Incentivo (%)</label><input id="p_comissao_bonus" class="form-control" value="30"/></div>
+            <div class="col-md-4"><label class="form-label">Duração da Parceria (anos)</label><input id="p_duracao" class="form-control" value="2"/></div>
+            <div class="col-md-4"><label class="form-label">Meta de Clientes</label><input id="p_meta_clientes" class="form-control" value="30"/></div>
+            <div class="col-md-4"><label class="form-label">Prazo da Meta (meses)</label><input id="p_meta_meses" class="form-control" value="5"/></div>
+            <div class="col-md-4"><label class="form-label">Validade da Proposta (dias)</label><input id="p_validade" class="form-control" value="30"/></div>
+          </div>
+          <div class="section-label">Dados de Contacto VRL</div>
+          <div class="row g-3">
+            <div class="col-md-6"><label class="form-label">Telefone VRL</label><input id="p_tel" class="form-control" value="+244 944 968 819"/></div>
+            <div class="col-md-6"><label class="form-label">Email VRL</label><input id="p_email" class="form-control" value="geral@vrlidentidade.ao"/></div>
+          </div>
+          <div class="section-label">Data da Proposta</div>
+          <div class="row g-3">
+            <div class="col-md-4"><label class="form-label">Dia</label><input id="p_dia" class="form-control" value="20"/></div>
+            <div class="col-md-4"><label class="form-label">Mês</label><input id="p_mes" class="form-control" value="Abril"/></div>
+            <div class="col-md-4"><label class="form-label">Ano</label><input id="p_ano" class="form-control" value="2026"/></div>
+          </div>
         </div>
-        <div class="section-label">Condições Comerciais</div>
-        <div class="row g-3">
-          <div class="col-md-4"><label class="form-label">Comissão Base (%)</label><input id="p_comissao_base" class="form-control" value="15"/></div>
-          <div class="col-md-4"><label class="form-label">Comissão Incentivo (%)</label><input id="p_comissao_bonus" class="form-control" value="30"/></div>
-          <div class="col-md-4"><label class="form-label">Duração da Parceria (anos)</label><input id="p_duracao" class="form-control" value="2"/></div>
-          <div class="col-md-4"><label class="form-label">Meta de Clientes</label><input id="p_meta_clientes" class="form-control" value="30"/></div>
-          <div class="col-md-4"><label class="form-label">Prazo da Meta (meses)</label><input id="p_meta_meses" class="form-control" value="5"/></div>
-          <div class="col-md-4"><label class="form-label">Validade da Proposta (dias)</label><input id="p_validade" class="form-control" value="30"/></div>
+
+        <!-- FORM PARCERIA PÚBLICA (novo) -->
+        <div id="formProposalPublico" style="display:none;">
+          <div style="margin-top:20px;background:#f0f7ff;border:1.5px solid #bcd9f5;border-radius:12px;padding:14px 18px;margin-bottom:4px;">
+            <div style="font-size:.78rem;font-weight:700;color:#1a5fa8;margin-bottom:5px;">ℹ️ Parceria de Integração Institucional</div>
+            <p style="font-size:.82rem;color:#444;margin:0;line-height:1.6;">Esta proposta destina-se a <strong>empresas privadas</strong> que actuam como <strong>facilitadoras e conectoras institucionais</strong> — ajudam a VRL Identidade a estabelecer contacto com órgãos do Ministério da Educação, municípios e delegações, com vista à integração do EDUALL nas escolas públicas. <strong>O parceiro não vende nem distribui</strong> — facilita a ligação e a integração institucional. As negociações e pagamentos são feitos directamente entre os órgãos públicos e a VRL Identidade.</p>
+          </div>
+          <div class="section-label">Representante VRL (Signatário)</div>
+          <div class="row g-3">
+            <div class="col-md-6"><label class="form-label">Nome do Signatário VRL</label><input id="pp_vrl_nome" class="form-control" value="Lumanisa Manuel"/></div>
+            <div class="col-md-6"><label class="form-label">Cargo do Signatário VRL</label><input id="pp_vrl_cargo" class="form-control" value="Director Geral"/></div>
+          </div>
+          <div class="section-label">Empresa Parceira (Facilitadora) <span style="font-weight:400;color:#aaa;font-size:.68rem;letter-spacing:0;text-transform:none;">— opcional</span></div>
+          <div class="row g-3">
+            <div class="col-md-8"><label class="form-label">Nome da Empresa Parceira</label><input id="pp_entidade" class="form-control" placeholder="Ex: Conexão Angola, Lda."/></div>
+            <div class="col-md-4"><label class="form-label">NIF</label><input id="pp_nif" class="form-control" placeholder="Ex: 5001234567"/></div>
+            <div class="col-md-6"><label class="form-label">Nome do Representante Legal</label><input id="pp_rep" class="form-control" placeholder="Ex: António da Silva"/></div>
+            <div class="col-md-6"><label class="form-label">Cargo do Representante</label><input id="pp_cargo" class="form-control" placeholder="Ex: Director Geral"/></div>
+            <div class="col-md-6"><label class="form-label">Sede / Localidade</label><input id="pp_sede" class="form-control" placeholder="Ex: Luanda"/></div>
+          </div>
+          <div class="section-label">Condições da Parceria</div>
+          <div class="row g-3">
+            <div class="col-md-4"><label class="form-label">Percentagem do Parceiro (%)</label><input id="pp_percentagem" class="form-control" value="20" placeholder="Ex: 20"/></div>
+            <div class="col-md-4"><label class="form-label">Duração da Parceria (anos)</label><input id="pp_duracao" class="form-control" value="3" placeholder="Ex: 3"/></div>
+            <div class="col-md-4"><label class="form-label">Validade da Proposta (dias)</label><input id="pp_validade" class="form-control" value="30"/></div>
+          </div>
+          <div style="background:#fff8f0;border:1px solid #f0d8cc;border-radius:10px;padding:12px 16px;margin-top:6px;font-size:.8rem;color:#666;line-height:1.6;">
+            <strong style="color:var(--orange);">📌 Nota:</strong> Sem renovação automática — qualquer renovação requer acordo escrito expresso entre as partes antes do termo do prazo.
+          </div>
+          <div class="section-label">Dados de Contacto VRL</div>
+          <div class="row g-3">
+            <div class="col-md-6"><label class="form-label">Telefone VRL</label><input id="pp_tel" class="form-control" value="+244 944 968 819"/></div>
+            <div class="col-md-6"><label class="form-label">Email VRL</label><input id="pp_email" class="form-control" value="geral@vrlidentidade.ao"/></div>
+          </div>
+          <div class="section-label">Data da Proposta</div>
+          <div class="row g-3">
+            <div class="col-md-4"><label class="form-label">Dia</label><input id="pp_dia" class="form-control" value="20"/></div>
+            <div class="col-md-4"><label class="form-label">Mês</label><input id="pp_mes" class="form-control" value="Abril"/></div>
+            <div class="col-md-4"><label class="form-label">Ano</label><input id="pp_ano" class="form-control" value="2026"/></div>
+          </div>
         </div>
-        <div class="section-label">Dados de Contacto VRL</div>
-        <div class="row g-3">
-          <div class="col-md-6"><label class="form-label">Telefone VRL</label><input id="p_tel" class="form-control" value="+244 944 968 819"/></div>
-          <div class="col-md-6"><label class="form-label">Email VRL</label><input id="p_email" class="form-control" value="geral@vrlidentidade.ao"/></div>
-        </div>
-        <div class="section-label">Data da Proposta</div>
-        <div class="row g-3">
-          <div class="col-md-4"><label class="form-label">Dia</label><input id="p_dia" class="form-control" value="20"/></div>
-          <div class="col-md-4"><label class="form-label">Mês</label><input id="p_mes" class="form-control" value="Abril"/></div>
-          <div class="col-md-4"><label class="form-label">Ano</label><input id="p_ano" class="form-control" value="2026"/></div>
-        </div>
+
       </div>
       <div class="modal-footer">
         <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -801,6 +861,7 @@ function editContract(){
                 : _lastDocType==='letter'   ? 'letterModal'
                 : 'contractModal';
   if(_lastDocType==='proposal' && contractData && contractData.type==='proposal'){
+    _currentProposalType = contractData.proposalSubType === 'publico' ? 'publico' : 'comercial';
     restoreProposalModal(contractData);
   }
   bootstrap.Modal.getOrCreateInstance(document.getElementById(modalId)).show();
@@ -910,9 +971,32 @@ function renderLetterPages(d){
 // ══════════════════════════════════════════════
 // PROPOSTA DE REPRESENTAÇÃO COMERCIAL
 // ══════════════════════════════════════════════
+
+let _currentProposalType = 'comercial';
+
+function selectProposalType(type){
+  _currentProposalType = type;
+  document.getElementById('btnProposalTypeComercial').classList.toggle('active', type==='comercial');
+  document.getElementById('btnProposalTypePublico').classList.toggle('active', type==='publico');
+  document.getElementById('formProposalComercial').style.display = type==='comercial' ? '' : 'none';
+  document.getElementById('formProposalPublico').style.display = type==='publico' ? '' : 'none';
+  document.getElementById('proposalModalTitle').textContent = type==='comercial' ? 'Proposta de Representação Comercial' : 'Proposta de Parceria com Entidades Públicas';
+  document.getElementById('proposalModalSub').textContent = type==='comercial' ? 'Dados da empresa representante (opcional — deixe em branco para preencher à mão)' : 'Para municípios, delegações e órgãos do Ministério da Educação';
+}
+
 function generateProposal(){
   _lastDocType='proposal';
-  const d={vrlNome:getPV('p_vrl_nome')||'Lumanisa Manuel',vrlCargo:getPV('p_vrl_cargo')||'Director Geral',empresa:getPV('p_empresa'),nif:getPV('p_nif'),rep:getPV('p_rep'),cargo:getPV('p_cargo'),sede:getPV('p_sede'),tel:getPV('p_tel'),email:getPV('p_email'),dia:getPV('p_dia'),mes:getPV('p_mes'),ano:getPV('p_ano'),comissaoBase:getPV('p_comissao_base')||'15',comissaoBonus:getPV('p_comissao_bonus')||'30',duracao:getPV('p_duracao')||'2',metaClientes:getPV('p_meta_clientes')||'30',metaMeses:getPV('p_meta_meses')||'5',validade:getPV('p_validade')||'30'};
+  if(_currentProposalType === 'publico'){
+    const d={proposalSubType:'publico',vrlNome:getPV('pp_vrl_nome')||'Lumanisa Manuel',vrlCargo:getPV('pp_vrl_cargo')||'Director Geral',entidade:getPV('pp_entidade'),nif:getPV('pp_nif'),rep:getPV('pp_rep'),cargo:getPV('pp_cargo'),sede:getPV('pp_sede'),tel:getPV('pp_tel'),email:getPV('pp_email'),dia:getPV('pp_dia'),mes:getPV('pp_mes'),ano:getPV('pp_ano'),percentagem:getPV('pp_percentagem')||'20',duracao:getPV('pp_duracao')||'3',validade:getPV('pp_validade')||'30'};
+    contractData = {type:'proposal', ...d};
+    bootstrap.Modal.getInstance(document.getElementById('proposalModal')).hide();
+    renderPublicPartnershipPages(d);
+    document.getElementById('previewTitle').textContent='Pré-visualização — Parceria com Entidades Públicas';
+    document.getElementById('previewArea').style.display='block';
+    document.getElementById('previewArea').scrollIntoView({behavior:'smooth',block:'start'});
+    return;
+  }
+  const d={proposalSubType:'comercial',vrlNome:getPV('p_vrl_nome')||'Lumanisa Manuel',vrlCargo:getPV('p_vrl_cargo')||'Director Geral',empresa:getPV('p_empresa'),nif:getPV('p_nif'),rep:getPV('p_rep'),cargo:getPV('p_cargo'),sede:getPV('p_sede'),tel:getPV('p_tel'),email:getPV('p_email'),dia:getPV('p_dia'),mes:getPV('p_mes'),ano:getPV('p_ano'),comissaoBase:getPV('p_comissao_base')||'15',comissaoBonus:getPV('p_comissao_bonus')||'30',duracao:getPV('p_duracao')||'2',metaClientes:getPV('p_meta_clientes')||'30',metaMeses:getPV('p_meta_meses')||'5',validade:getPV('p_validade')||'30'};
   // guardar para que o botão "Editar" possa repor os valores
   contractData = {type:'proposal', ...d};
   bootstrap.Modal.getInstance(document.getElementById('proposalModal')).hide();
@@ -924,6 +1008,26 @@ function generateProposal(){
 
 function restoreProposalModal(d){
   const sv=(id,v)=>{const el=document.getElementById(id);if(el)el.value=v||'';};
+  if(d.proposalSubType==='publico'){
+    selectProposalType('publico');
+    sv('pp_vrl_nome',   d.vrlNome||'Lumanisa Manuel');
+    sv('pp_vrl_cargo',  d.vrlCargo||'Director Geral');
+    sv('pp_entidade',   d.entidade||'');
+    sv('pp_nif',        d.nif||'');
+    sv('pp_rep',        d.rep||'');
+    sv('pp_cargo',      d.cargo||'');
+    sv('pp_sede',       d.sede||'');
+    sv('pp_tel',        d.tel||'+244 944 968 819');
+    sv('pp_email',      d.email||'geral@vrlidentidade.ao');
+    sv('pp_dia',        d.dia||'');
+    sv('pp_mes',        d.mes||'');
+    sv('pp_ano',        d.ano||'');
+    sv('pp_percentagem',d.percentagem||'20');
+    sv('pp_duracao',    d.duracao||'3');
+    sv('pp_validade',   d.validade||'30');
+    return;
+  }
+  selectProposalType('comercial');
   sv('p_vrl_nome',       d.vrlNome||'Lumanisa Manuel');
   sv('p_vrl_cargo',      d.vrlCargo||'Director Geral');
   sv('p_empresa',        d.empresa||'');
@@ -1085,6 +1189,134 @@ function renderProposalPages(d){
   }catch(e){}
 }
 
+// ══════════════════════════════════════════════
+// PROPOSTA — PARCERIA COM ENTIDADES PÚBLICAS
+// ══════════════════════════════════════════════
+function renderPublicPartnershipPages(d){
+  const wrap = document.getElementById('pagesWrapper');
+  wrap.innerHTML = '';
+
+  const vrlNome  = d.vrlNome  || 'Lumanisa Manuel';
+  const vrlCargo = d.vrlCargo || 'Director Geral';
+  const parNome  = d.rep      ? d.rep      : '[Nome do Representante da Entidade]';
+  const parCargo = d.cargo    ? d.cargo    : '[Cargo]';
+  const parEnt   = d.entidade ? d.entidade : '[Nome da Entidade Parceira]';
+  const bk = (w) => `<span style="display:inline-block;border-bottom:1px solid #555;min-width:${w||100}px;">&nbsp;</span>`;
+  const numExt = (n) => ({1:'um',2:'dois',3:'três',4:'quatro',5:'cinco',6:'seis',7:'sete',8:'oito',9:'nove',10:'dez',12:'doze',15:'quinze',20:'vinte',25:'vinte e cinco',30:'trinta',45:'quarenta e cinco',60:'sessenta',90:'noventa',100:'cem'}[String(n)]||String(n));
+
+  const percentagem = d.percentagem || '20';
+  const duracao     = d.duracao     || '3';
+  const validade    = d.validade    || '30';
+
+  // ── CAPA ──
+  const coverDiv = document.createElement('div');
+  coverDiv.className = 'preview-page';
+  coverDiv.style.overflow = 'hidden';
+  coverDiv.innerHTML = `<div style="width:794px;height:1123px;background:linear-gradient(160deg,#E8631A 0%,#c4521a 55%,#8B2500 100%);display:flex;flex-direction:column;justify-content:space-between;padding:72px 64px 60px;position:relative;overflow:hidden;box-sizing:border-box;">
+    <div style="position:absolute;top:-120px;right:-120px;width:480px;height:480px;border-radius:50%;background:rgba(255,255,255,.06);"></div>
+    <div style="position:absolute;bottom:-80px;left:-60px;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,.05);"></div>
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;border-radius:50%;border:1px solid rgba(255,255,255,.07);"></div>
+    <div style="position:relative;z-index:2;"><div style="font-size:52px;font-weight:900;color:white;letter-spacing:-2px;line-height:1;font-family:Montserrat,sans-serif;">VRL <span style="font-weight:300;color:rgba(255,255,255,.45);">identidade</span></div><div style="font-size:11px;font-weight:600;letter-spacing:5px;text-transform:uppercase;color:rgba(255,255,255,.55);margin-top:8px;font-family:Montserrat,sans-serif;">Sistema EDUALL</div></div>
+    <div style="position:relative;z-index:2;text-align:center;">
+      <div style="display:inline-block;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:40px;padding:8px 28px;margin-bottom:32px;"><span style="font-size:10px;font-weight:700;letter-spacing:3px;color:rgba(255,255,255,.8);text-transform:uppercase;font-family:Montserrat,sans-serif;">PARCERIA PÚBLICA · SECTOR DA EDUCAÇÃO</span></div>
+      <div style="font-size:40px;font-weight:900;color:white;line-height:1.1;letter-spacing:-1px;font-family:Montserrat,sans-serif;">Proposta de<br/>Parceria com<br/>Entidades Públicas</div>
+      <div style="font-size:13px;font-weight:500;color:rgba(255,255,255,.6);margin-top:20px;letter-spacing:1px;font-family:Montserrat,sans-serif;">Facilitação Institucional · Integração EDUALL nas Escolas Públicas</div>
+      <div style="width:60px;height:3px;background:rgba(255,255,255,.35);border-radius:2px;margin:28px auto 0;"></div>
+    </div>
+    <div style="position:relative;z-index:2;border-top:1px solid rgba(255,255,255,.15);padding-top:24px;display:flex;justify-content:space-between;align-items:flex-end;font-family:Montserrat,sans-serif;">
+      <div><div style="font-size:9px;font-weight:700;letter-spacing:3px;color:rgba(255,255,255,.4);text-transform:uppercase;margin-bottom:4px;">Fornecedora</div><div style="font-size:13px;font-weight:700;color:white;">VRL IDENTIDADE</div><div style="font-size:10px;color:rgba(255,255,255,.5);margin-top:2px;">NIF: 5001512323 · Luanda, Angola</div></div>
+      <div style="text-align:right;"><div style="font-size:9px;font-weight:700;letter-spacing:3px;color:rgba(255,255,255,.4);text-transform:uppercase;margin-bottom:4px;">Confidencial</div><div style="font-size:10px;color:rgba(255,255,255,.5);">www.vrlidentidade.ao</div></div>
+    </div>
+  </div>`;
+  wrap.appendChild(coverDiv);
+
+  // ── PÁGINA 1: Objecto, Papel do Parceiro, Remuneração ──
+  const pg1 = document.createElement('div');
+  pg1.className = 'preview-page';
+  pg1.innerHTML = `<div class="inner-wrap"><img src="${IMG_INICIO}" class="page-header-img" crossorigin="anonymous"/><div class="page-body">
+
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:22px;padding-bottom:16px;border-bottom:1px solid #e5e5e5;">
+      <div><div style="font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--orange);margin-bottom:4px;">Para</div><div style="font-size:12px;font-weight:700;color:#1a1a1a;">${d.entidade ? d.entidade : bk(240)}</div>${d.rep?`<div style="font-size:10px;color:#555;margin-top:2px;">Atenção: <strong>${d.rep}</strong>${d.cargo?', '+d.cargo:''}</div>`:''}</div>
+      <div style="text-align:right;"><div style="font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:#999;margin-bottom:4px;">Data</div><p style="margin:0;font-size:10.5px;color:#555;">${d.dia} de ${d.mes} de ${d.ano}</p></div>
+    </div>
+
+    <p style="font-size:11.5px;font-weight:700;margin:0 0 22px;"><strong>Assunto:</strong> Proposta de Parceria para Facilitação e Integração Institucional do Sistema de Gestão Escolar EDUALL nas Escolas Públicas.</p>
+
+    <h3>1. Objectivo da Parceria</h3>
+    <p style="text-align:justify;">A <strong>VRL IDENTIDADE, LDA</strong> pretende estabelecer uma parceria estratégica com ${d.entidade?'<strong>'+d.entidade+'</strong>':bk(240)}, empresa com experiência e rede de contactos no sector público, com o objectivo de <strong>facilitar e apoiar a integração do Sistema de Gestão Escolar e Universitário EDUALL nas escolas públicas angolanas</strong>.</p>
+    <p style="text-align:justify;">O papel da empresa parceira não é o de revender ou distribuir o software EDUALL. O seu contributo consiste em <strong>estabelecer a ponte entre a VRL Identidade e os órgãos competentes do Ministério da Educação</strong> — designadamente municípios, delegações municipais e outras entidades públicas com capacidade de decisão — que possam viabilizar a integração do EDUALL nas escolas públicas sob a sua jurisdição.</p>
+
+    <h3>2. Papel da Empresa Parceira</h3>
+    <p style="text-align:justify;">No âmbito desta parceria, a empresa ${d.entidade?'<strong>'+d.entidade+'</strong>':bk(200)} compromete-se a:</p>
+    <ul>
+      <li>Identificar e estabelecer contacto com órgãos do Ministério da Educação, municípios, delegações municipais e demais entidades públicas relevantes;</li>
+      <li>Facilitar reuniões, apresentações e negociações entre a <strong>VRL Identidade</strong> e as entidades públicas identificadas;</li>
+      <li>Apoiar a VRL Identidade no processo de integração institucional, actuando como mediadora e facilitadora de acesso;</li>
+      <li>Contribuir para a criação das condições necessárias à formalização de acordos entre a VRL Identidade e os órgãos públicos competentes;</li>
+      <li>Reportar periodicamente à VRL Identidade o estado das diligências em curso e os contactos estabelecidos.</li>
+    </ul>
+    <p style="text-align:justify;"><strong>A empresa parceira não actua como revendedora, distribuidora nem representante comercial do software EDUALL.</strong> Todas as negociações contratuais e financeiras relativas à implementação do EDUALL nas escolas públicas são conduzidas directamente entre a <strong>VRL Identidade</strong> e as entidades públicas.</p>
+
+    <h3>3. Remuneração da Empresa Parceira</h3>
+    <p style="text-align:justify;">Em reconhecimento do papel de facilitação e intermediação institucional desempenhado, a <strong>VRL IDENTIDADE</strong> compromete-se a atribuir à empresa parceira uma <strong>percentagem de ${percentagem}% (${numExt(percentagem)} por cento) sobre o valor total dos contratos celebrados</strong> com os órgãos públicos ou escolas públicas que resultem directamente das diligências e contactos estabelecidos pela empresa parceira, a título de comissão de facilitação, liquidada nos termos a acordar no contrato definitivo.</p>
+
+  </div><div class="page-spacer"></div><img src="${IMG_RODAPE}" class="page-footer-img" crossorigin="anonymous"/></div>`;
+  wrap.appendChild(pg1);
+
+  // ── PÁGINA 2: Responsabilidades, Duração, Validade + Assinatura ──
+  const pg2 = document.createElement('div');
+  pg2.className = 'preview-page';
+  pg2.innerHTML = `<div class="inner-wrap"><img src="${IMG_INICIO}" class="page-header-img" crossorigin="anonymous"/><div class="page-body">
+
+    <h3>4. Responsabilidades da Empresa Parceira</h3>
+    <p style="text-align:justify;">A empresa parceira obriga-se a actuar com diligência e boa-fé na identificação e contacto com as entidades públicas relevantes; a partilhar com a VRL Identidade toda a informação pertinente que facilite o processo de integração institucional; a não representar, durante a vigência da parceria, soluções tecnológicas concorrentes directas do sistema EDUALL junto das mesmas entidades públicas; e a manter confidencialidade sobre os termos, condições e estratégias comerciais da VRL Identidade.</p>
+
+    <h3>5. Responsabilidades da VRL IDENTIDADE</h3>
+    <p style="text-align:justify;">A <strong>VRL IDENTIDADE</strong> obriga-se a disponibilizar à empresa parceira toda a documentação, materiais de apresentação e informação técnica necessária para apoiar as diligências de facilitação; a conduzir com profissionalismo as reuniões e negociações com as entidades públicas identificadas pela empresa parceira; a manter a empresa parceira informada sobre o estado das negociações em curso; e a processar o pagamento da comissão acordada nos prazos e termos estabelecidos no contrato definitivo, relativamente a todos os contratos que resultem directamente das diligências da empresa parceira.</p>
+
+    <h3>6. Gratuidade para as Escolas Públicas</h3>
+    <p style="text-align:justify;">Fica claramente estabelecido que o modelo de integração do EDUALL nas escolas públicas visa assegurar que <strong>as escolas não suportem custos directos</strong> pela utilização do sistema. Os encargos financeiros inerentes à implementação do EDUALL nas escolas públicas serão negociados directamente entre a <strong>VRL Identidade</strong> e os órgãos públicos competentes, conforme os termos a acordar em cada parceria institucional.</p>
+
+    <h3>7. Duração da Parceria e Renovação</h3>
+    <p style="text-align:justify;">A presente parceria terá a duração de <strong>${duracao} (${numExt(duracao)}) anos</strong>, contados a partir da data de assinatura do respectivo contrato. <strong>Não existe renovação automática</strong> — qualquer renovação ou prorrogação deverá ser acordada expressamente por escrito entre ambas as partes, antes do termo do prazo em vigor, sem que se presuma qualquer continuidade pelo simples decurso do tempo.</p>
+
+    <h3>8. Validade da Proposta</h3>
+    <p style="text-align:justify;">A presente proposta tem validade de <strong>${validade} (${numExt(validade)}) dias</strong> a contar da data da sua emissão. Findo este prazo sem manifestação de interesse, a proposta perde o seu efeito, podendo ser reapresentada com eventuais actualizações de condições.</p>
+
+    <h3>9. Considerações Finais</h3>
+    <p style="text-align:justify;">A <strong>VRL IDENTIDADE</strong> acredita que esta parceria representa uma oportunidade estratégica de levar a transformação digital ao ensino público angolano. A experiência e rede de contactos da empresa parceira são elementos fundamentais para viabilizar este objectivo, e comprometemo-nos a apoiá-la integralmente com todos os meios técnicos e comerciais ao nosso alcance.</p>
+    <p style="text-align:justify;">Após aceitação da presente proposta, as partes formalizarão a relação através de um Contrato de Parceria de Facilitação Institucional completo, com todas as condições, direitos e deveres detalhados.</p>
+
+    <p style="margin-top:28px;"><strong>Luanda, ${d.dia} de ${d.mes} de ${d.ano}.</strong></p>
+    <p style="margin-bottom:0;">Apresentamos os nossos melhores cumprimentos,</p>
+
+    <div style="display:flex;justify-content:space-between;margin-top:60px;gap:24px;">
+      <div style="display:flex;flex-direction:column;align-items:center;text-align:center;min-width:220px;">
+        <div style="border-top:1.5px solid #333;width:220px;margin-bottom:8px;"></div>
+        <p style="margin:0;font-size:10.5px;line-height:1.6;"><strong>${vrlNome}</strong></p>
+        <p style="margin:0;font-size:10.5px;">${vrlCargo}</p>
+        <p style="margin:0;font-size:10.5px;">VRL IDENTIDADE, LDA</p>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;text-align:center;min-width:220px;">
+        <div style="border-top:1.5px solid #333;width:220px;margin-bottom:8px;"></div>
+        <p style="margin:0;font-size:10.5px;line-height:1.6;font-style:${d.rep?'normal':'italic'};color:${d.rep?'inherit':'#888'};"><strong>${parNome}</strong></p>
+        <p style="margin:0;font-size:10.5px;font-style:${d.cargo?'normal':'italic'};color:${d.cargo?'inherit':'#888'};">${parCargo}</p>
+        <p style="margin:0;font-size:10.5px;font-style:${d.entidade?'normal':'italic'};color:${d.entidade?'inherit':'#888'};">${parEnt}</p>
+      </div>
+    </div>
+
+  </div><div class="page-spacer"></div><img src="${IMG_RODAPE}" class="page-footer-img" crossorigin="anonymous"/></div>`;
+  wrap.appendChild(pg2);
+
+  try{
+    const saved = JSON.parse(localStorage.getItem('vrl_proposals')||'[]');
+    const entry = {id: Date.now(), ts: new Date().toISOString(), data: d};
+    saved.unshift(entry);
+    if(saved.length > 20) saved.length = 20;
+    localStorage.setItem('vrl_proposals', JSON.stringify(saved));
+  }catch(e){}
+}
+
 
 // ── EXPORT PDF ──
 let _pendingExportType = null;
@@ -1101,8 +1333,13 @@ function getDefaultFilename(ext){
   } else if(_lastDocType==='letter'){
     fname='EDUALL_Carta_Apresentacao';
   } else if(_lastDocType==='proposal'){
-    const empresa = (contractData&&contractData.empresa||'').replace(/\s+/g,'_')||'';
-    fname='EDUALL_Proposta_Representacao' + (empresa?'_'+empresa:'');
+    if(contractData && contractData.proposalSubType === 'publico'){
+      const ent = (contractData.entidade||'').replace(/\s+/g,'_')||'';
+      fname = 'EDUALL_Parceria_Publica' + (ent?'_'+ent:'');
+    } else {
+      const empresa = (contractData&&contractData.empresa||'').replace(/\s+/g,'_')||'';
+      fname='EDUALL_Proposta_Representacao' + (empresa?'_'+empresa:'');
+    }
   }
   return fname;
 }
